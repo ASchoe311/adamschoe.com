@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block header %}
+{{ super() }}
+{% endblock %}
+{% block body %}
+
+
+    <h1 id="ContactInfoHeader" class="text-center py-3">Contact Me</h1>
+    {% if alert_success %}
+    <div class="container-md container-fluid">
+        <div class="alert alert-success " role="alert">
+            <h4 class="alert-heading">Email Sent!</h4>
+            <p>Thank you for reaching out to me, I will do my best to respond as soon as possible.</p>
+        </div>
+    </div>
+    {% endif %}
+    <div class="jumbotron jumbotron-fluid bg-light">
+        <div class="container">
+            <div class="row row-cols-sm-1 row-cols-md-2">
+                <div class="col">
+                    <dl>
+                        <dt>Email Addresses</dt>
+                        {% for email in myinfo.emails %}
+                        <dd>{{ email }}</dd>
+                        {% endfor %}
+                        <dt>Phone Number</dt>
+                        <dd>
+                            {{ myinfo.phone_num }}
+                        </dd>
+                    
+                        <!-- <dt>Address</dt>
+                        <dd>
+                            <p>{{ myinfo.addr_ln1 }}</p>
+                            {% if 'addr_ln2' in myinfo.keys() %}
+                                <p>{{ myinfo.addr_ln2 }}</p>
+                            {% endif %}
+                            <p>{{ myinfo.city }}, {{ myinfo.state }} {{ myinfo.zip}}</p>
+                        </dd> -->
+                    </dl>
+                </div>
+                <div class="col">
+                    <form action="{{ url_for('show_contact_info') }}" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="InputName">Name</label>
+                            <input type="text" class="form-control" id="InputName" name="name" placeholder="John Doe" required>
+                          </div>
+                        <div class="form-group">
+                            <label for="InputEmail">Email address</label>
+                            <input type="email" class="form-control" id="InputEmail" name="email" placeholder="johndoe@gmail.com" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="InputSubject">Subject</label>
+                            <input type="text" class="form-control" id="InputSubject" name="subject" placeholder="Email subject" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="InputBody">Email body</label>
+                            <textarea class="form-control" id="InputBody" rows="3" name="body" placeholder="Your email text" required></textarea>
+                          </div>
+                          <button type="submit" class="btn btn-primary">Send Email</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+{% endblock %}
+{% block FabMenu %}
+{{ super() }}
+{% endblock %}
