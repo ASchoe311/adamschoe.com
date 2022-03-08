@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-    
-    <head>
-        <meta name="robots" content="noindex">
-    </head>
-    <body>
-
+{% extends "base.html" %}
+{% block head %}
+{{ super() }}
+<meta name="robots" content="noindex">
+{% endblock %}
+{% block header %}
+{{ super() }}
+{% endblock %}
+{% block body %}
         <form action="{{ url_for('add_project') }}" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="InputTitle">Title</label>
@@ -29,7 +30,7 @@
             </div>
             <div class="form-group">
                 <label for="InputWip">Work in progress?</label>
-                <input type="checkbox" class="form-control" id="InputWip" rows="3" name="is_wip">
+                <input type="checkbox" class="" id="InputWip" rows="3" name="is_wip">
             </div>
             <div class="form-group">
                 <label for="InputExt">Extras</label>
@@ -45,5 +46,4 @@
             </div>
             <button type="submit" class="btn btn-primary">Add Project</button>
         </form>
-</body>
-</html>
+{% endblock %}
