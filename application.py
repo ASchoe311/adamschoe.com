@@ -1,4 +1,3 @@
-import pathlib
 import os
 import flask
 import hashlib
@@ -9,9 +8,11 @@ import sqlite3
 
 application = flask.Flask(__name__)
 application.config.from_pyfile('config.py')
-# print(application.config.get_namespace('MAIL_'))
+# print(application.config.get_namespace('ALLOWED_'))
 # print(application.config.get_namespace('SITE_'))
 # print(pathlib.Path(__file__).resolve().parent)
+
+num_projects = 0
 
 mail = Mail()
 mail.init_app(application)
@@ -19,12 +20,7 @@ mail.init_app(application)
 myinfo = {
     'resume_file': 'res.pdf',
     'phone_num': '914-539-5828',
-    'emails': ['aschoe@umich.edu', 'adamrschoenfeld311@gmail.com'],
-    'addr_ln1': '817 Arch St',
-    'addr_ln2': 'Apartment 4',
-    'city': 'Ann Arbor',
-    'state': 'Michigan',
-    'zip': 48104
+    'emails': ['aschoe@umich.edu', 'adamrschoenfeld311@gmail.com']
 }
 
 def dict_factory(cursor, row):
@@ -67,7 +63,7 @@ def close_db(error):
         sqlite_db.close()
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in application.config.ALLOWED_IMG_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ['png', 'jpg', 'jpeg', 'gif']
 
 @application.route('/')
 def show_index():
@@ -77,6 +73,21 @@ def show_index():
     )
     projects = cur.fetchall()
     projects = {str(proj['proj_id']): {key: proj[key] for key in proj.keys() if key != 'proj_id'} for proj in projects}
+    cur = connection.execute(
+        """SELECT proj_id,disp_text,url FROM extras"""
+    )
+    extras = cur.fetchall()
+    temp = {}
+    for e in extras:
+        if e['proj_id'] not in temp.keys():
+            temp[e['proj_id']] = []
+        temp[e['proj_id']].append((e['url'], e['disp_text']))
+
+    for proj_id, links in temp.items():
+        projects[str(proj_id)]['extras'] = links
+    for k in projects.keys():
+        projects[k]['languages'] = projects[k]['languages'].split(',')
+    num_projects = len(projects)
     projects_ctx = [projects[key] for key in sorted(projects, key=lambda proj: proj, reverse=True)]
     context = {'projects': projects_ctx, 'page': 'index'}
     return flask.render_template('index.html', **context)
@@ -134,26 +145,56 @@ def add_project():
     m.update(bytes(passwordInput, 'utf-8'))
     hashed = m.hexdigest()
     if hashed == realPass:
+        hasExtras = False
+        if flask.request.form.get('hasextras') is not None:
+            hasExtras = True
+            try:
+                extras = [(ext.split(',')[0], ext.rstrip().split(',')[1]) for ext in flask.request.form.get('extras').split("\n")]
+            except:
+                return flask.render_template_string('<h1 style="text-align: center;">Something went wrong while parsing extras, check your syntax!</h1>')
+        # print(extras)
         formData = {}
         formData['title'] = flask.request.form.get('title')
         formData['description'] = flask.request.form.get('description')
         formData['url'] = flask.request.form.get('git_url')
-        formData['language'] = flask.request.form.get('language')
+        formData['languages'] = flask.request.form.get('languages')
         file = flask.request.files['image']
         formData['image'] = file.filename
         formData['is_wip'] = True if flask.request.form.get('is_wip') is not None else False
+
         connection = get_db()
-        connection.execute(
-            'INSERT INTO projects(title, github_url, image, description, language, is_wip)'
-            'VALUES (?,?,?,?,?,?)', (formData['title'], formData['url'], formData['image'], formData['description'], formData['language'], formData['is_wip'],)
+        cur= connection.execute(
+            "SELECT COUNT(proj_id) FROM projects"
         )
-        connection.commit()
-        if allowed_file(formData['image']):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(application.config['IMG_UPLOAD_FOLDER'], filename))
-            return flask.render_template('addsuccess.html', redirect_url=flask.url_for('show_index'), uploadtype='PROJECT')
+        num_projects = cur.fetchone()['COUNT(proj_id)']
+
+        try:
+            sqlCommand = f"""INSERT INTO projects(title, github_url, image, description, languages, is_wip)\nVALUES ('{formData['title']}', '{formData['url']}', '{formData['image']}', "{formData['description']}", '{formData['languages']}', '{formData['is_wip']}');"""
+            connection.execute(sqlCommand)
+            connection.commit()
+            # with open('sql/data.sql', 'a') as sqlDataFile:
+            #     sqlDataFile.write(sqlCommand)
+            #     sqlDataFile.write("\n")
+            if hasExtras:
+                for ext in extras:
+                    sqlCommand = f"""INSERT INTO extras(proj_id, disp_text, url)\nVALUES ('{num_projects+1}', "{ext[0]}", '{ext[1]}');"""
+                    connection.execute(sqlCommand)
+                    connection.commit()
+                    # connection.commit()
+                    # with open('sql/data.sql', 'a') as sqlDataFile:
+                    #     sqlDataFile.write(sqlCommand)
+                    #     sqlDataFile.write("\n")
+
+            if allowed_file(formData['image']):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(application.config['IMG_UPLOAD_FOLDER'], filename))
+                return flask.render_template('addsuccess.html', redirect_url=flask.url_for('show_index'), uploadtype='PROJECT')
+            flask.abort(415)
+        except sqlite3.IntegrityError:
+            return flask.render_template_string("<script>setTimeout(function(){window.location.href = '/addproject';}, 2000);</script><h1 style='text-align: center;'>ERROR: Attempted to add project with duplicate title</h1>")
+        except Exception as e:
+            return flask.render_template_string(f"<h1>Something went wrong:</h1><br><br><p>{e}</p>")
         # return flask.render_template('formresponse.html', form=formData)
-        flask.abort(403)
     else:
         return flask.render_template_string('<h1 style="text-align: center;">Sorry, this is for my personal use only! Nice try though!</h1>')
         # flask.abort(403)

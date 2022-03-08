@@ -12,7 +12,7 @@ SECRET_KEY = bytes(dotenv_values('.env')['FLASK_SECRET_KEY'], 'utf-8')
 SITE_ROOT = pathlib.Path(__file__).resolve().parent
 IMAGES_FOLDER = SITE_ROOT/'static'/'images'
 PDF_FOLDER = SITE_ROOT/'static'/'pdfs'
-ALLOWED_IMG_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+# ALLOWED_IMG_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 MAX_CONTENT_LENGTH = 16 * 1024 * 1024
 IMG_UPLOAD_FOLDER = SITE_ROOT/'static'/'images'
 PDF_UPLOAD_FOLDER = SITE_ROOT/'static'/'pdfs'
@@ -27,7 +27,7 @@ DATABASE_FILENAME = SITE_ROOT/'sql'/'db.sqlite3'
 
 
 MAIL_SERVER = 'email-smtp.us-east-2.amazonaws.com'
-MAIL_PORT = 25
+MAIL_PORT = 587
 MAIL_USE_TLS = True
 MAIL_USERNAME = dotenv_values('.env')['SES_USERNAME']
 MAIL_PASSWORD = dotenv_values('.env')['SES_PASSWORD']

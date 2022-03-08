@@ -6,7 +6,7 @@
 {{ super() }}
 {% endblock %}
 {% block body %}
-    <div id="ResumePdfFrame">
+    <div id="container">
         <object
             data="{{url_for('show_pdf', pdf=resFile)}}"
             type="application/pdf"
@@ -16,5 +16,8 @@
     </div>
 {% endblock %}
 {% block FabMenu %}
+{{ super() }}
+{% endblock %}
+{% block GAnalytics %}
 {{ super() }}
 {% endblock %}

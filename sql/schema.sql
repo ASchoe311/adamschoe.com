@@ -1,12 +1,20 @@
 PRAGMA foreign_keys = ON;
-CREATE TABLE projects(
+CREATE TABLE IF NOT EXISTS projects(
     proj_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    title varchar(50) NOT NULL,
+    title varchar(50) UNIQUE NOT NULL,
     github_url varchar(100) NOT NULL,
-    image varchar(50) NOT NULL,
-    description text NOT NULL,
-    language varchar(15) NOT NULL,
+    `image` varchar(50) NOT NULL,
+    `description` text NOT NULL,
+    languages text NOT NULL,
     is_wip boolean NOT NULL default FALSE
+);
+
+CREATE TABLE IF NOT EXISTS extras(
+    extra_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    proj_id INTEGER NOT NULL,
+    disp_text TEXT NOT NULL,
+    `url` TEXT NOT NULL,
+    FOREIGN KEY (proj_id) REFERENCES projects(proj_id) ON DELETE CASCADE
 );
 
 -- CREATE TABLE myinfo(

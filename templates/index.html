@@ -1,19 +1,20 @@
 {% extends "base.html" %}
 {% block head %}
 {{ super() }}
+<title>Adam Schoenfeld</title>
 {% endblock %}
 {% block header %}
 {{ super() }}
 {% endblock %}
 {% block body %}
     <div class="container col-xxl-8 px-4 py-5">
-        <div class="row flex-lg align-items-center g-5 py-5">
+        <div class="row flex-lg-row align-items-center g-5 py-5">
           <div class="col-10 col-sm-8 col-lg-6">
-            <img src="{{url_for('show_image', image='me.png')}}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+            <img src="{{url_for('show_image', image='me.png')}}" class="d-block mx-lg-auto img-fluid" alt="A photo of Adam Schoenfeld" width="700" height="500" loading="lazy">
           </div>
-          <div class="col-lg-6 max-vw-100">
+          <div class="col-lg-6">
             <h6>Hi, my name is</h6>
-            <h1 class="display-5 fw-bold lh-1 mb-3">Adam Schoenfeld</h1>
+            <h1 class="display-5 fw-bold lh-1 mb-3 mx-sm-2">Adam Schoenfeld</h1>
             <p class="lead">
                 I am a dedicated and ambitious software engineer with <strong style="color: #000; font-weight: bold;">full-stack development talents</strong>. I am highly experienced with Python, C++, and JavaScript, and have developed a unique and varied portfolio of applications. I am currently open to job offers for any software engineering positions, and look forward to hearing from you soon!
             </p>
@@ -30,24 +31,29 @@
         </div>
         <div class="card-body bg-light">
             <div id="ProjectCards" class="container">
-                <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     {% for project in projects %}
                     <div class="col py-2">
                         <div class="ProjectCard card h-100">
-                            <div class="card-header align-middle">
-                                <p class="font-weight-bold text-white">
-                                    {% if project.is_wip %}
-                                    <span class="badge badge-pill bg-warning float-right">WIP</span>
-                                    {% endif %}
-                                    <span class="badge badge-pill bg-info float-right">{{ project.language }}</span>
-                                </p>
-                                <a href="{{ project.github_url }}" class="ProjectLink card-title mx-2">
+                            <div class="card-header">
+                                {% if project.is_wip %}
+                                <span class="badge rounded-pill bg-warning font-weight-bold text-white float-end mt-1">WIP</span>
+                                {% endif %}
+                                {% for lang in project.languages %}
+                                <span class="badge rounded-pill bg-info font-weight-bold text-white">{{ lang }}</span>
+                                {% endfor %}
+                                <a href="{{ project.github_url }}" class="ProjectLink card-title mx-2 text-decoration-none">
                                     <h3 class="text-center my-1">{{ project.title }}</h3>
                                 </a>
                             </div>
-                            <img src="{{url_for('show_image', image=project.image)}}" class="ProjectImage card-img-top">
+                            <img src="{{url_for('show_image', image=project.image)}}" class="ProjectImage card-img">
                             <div class="card-body">
                                 <p class="ProjectDescription card-text">{{ project.description }}</p>
+                                {% if project.extras %}
+                                {% for ext in project.extras %}
+                                <a href="{{ ext[0] }}" target="_blank"class="card-link">{{ ext[1] }}</a>
+                                {% endfor %}
+                                {% endif %}
                             </div>
                             <div class="card-footer text-center">
                                 <a href="{{ project.github_url }}" class="btn btn-primary">View on Github</a>
@@ -60,6 +66,6 @@
         </div>
     </div>
 {% endblock %}
-{% block FabMenu %}
+{% block GAnalytics %}
 {{ super() }}
 {% endblock %}

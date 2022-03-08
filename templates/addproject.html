@@ -1,31 +1,49 @@
-<form action="{{ url_for('add_project') }}" method="POST" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="InputTitle">Title</label>
-        <input type="text" class="form-control" id="InputTitle" name="title" required>
-    </div>
-    <div class="form-group">
-        <label for="InputLang">Language</label>
-        <input type="text" class="form-control" id="InputLang" name="language" required>
-    </div>
-    <div class="form-group">
-        <label for="InputUrl">GitHub URL</label>
-        <input type="url" class="form-control" id="InputUrl" name="git_url" required>
-    </div>
-    <div class="form-group">
-        <label for="InputImg">Image</label>
-        <input type="file" class="form-control" id="InputImg" name="image" required>
-    </div>
-    <div class="form-group">
-        <label for="InputDesc">Description</label>
-        <textarea class="form-control" id="InputDesc" rows="3" name="description" required></textarea>
-    </div>
-    <div class="form-group">
-        <label for="InputWip">Work in progress?</label>
-        <input type="checkbox" class="form-control" id="InputWip" rows="3" name="is_wip">
-    </div>
-    <div class="form-group">
-        <label for="InputPass">Admin Password</label>
-        <input type="password" class="form-control" id="InputPass" rows="3" name="password" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Add Project</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta name="robots" content="noindex">
+    </head>
+    <body>
+
+        <form action="{{ url_for('add_project') }}" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="InputTitle">Title</label>
+                <input type="text" class="form-control" id="InputTitle" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="InputLang">Language(s)</label>
+                <input type="text" class="form-control" id="InputLang" name="languages" required>
+            </div>
+            <div class="form-group">
+                <label for="InputUrl">GitHub URL</label>
+                <input type="url" class="form-control" id="InputUrl" name="git_url" required>
+            </div>
+            <div class="form-group">
+                <label for="InputImg">Image</label>
+                <input type="file" class="form-control" id="InputImg" name="image" required>
+            </div>
+            <div class="form-group">
+                <label for="InputDesc">Description</label>
+                <textarea class="form-control" id="InputDesc" rows="3" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="InputWip">Work in progress?</label>
+                <input type="checkbox" class="form-control" id="InputWip" rows="3" name="is_wip">
+            </div>
+            <div class="form-group">
+                <label for="InputExt">Extras</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="checkbox" value="" name="hasextras" aria-label="Checkbox for following text input">
+                    </div>
+                <textarea class="form-control" id="InputExt" rows="3" name="extras"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="InputPass">Admin Password</label>
+                <input type="password" class="form-control" id="InputPass" rows="3" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Project</button>
+        </form>
+</body>
+</html>
