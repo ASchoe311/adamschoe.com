@@ -37,10 +37,13 @@
                         <div class="ProjectCard card h-100">
                             <div class="card-header">
                                 {% if project.is_wip %}
-                                <span class="badge rounded-pill bg-warning font-weight-bold text-white float-end mt-1">WIP</span>
+                                <span class="badge rounded-pill bg-warning font-weight-bold text-white float-end mt-1" data-mdb-toggle="tooltip" title="This project is a Work-In-Progress">WIP</span>
                                 {% endif %}
                                 {% for lang in project.languages %}
-                                <span class="badge rounded-pill bg-info font-weight-bold text-white">{{ lang }}</span>
+                                <span class="badge rounded-pill bg-info font-weight-bold text-white" data-mdb-toggle="tooltip" title="Written using {{ lang }}">{{ lang }}</span>
+                                <!-- <span class="badge rounded-pill bg-info">
+                                    <i class="fab fa-{{ lang }} fa-lg text-capitalize" data-mdb-toggle="tooltip" title="Written using {{ lang }}"></i>
+                                </span> -->
                                 {% endfor %}
                                 <a href="{{ project.github_url }}" class="ProjectLink card-title mx-2 text-decoration-none">
                                     <h3 class="text-center my-1">{{ project.title }}</h3>
@@ -66,6 +69,12 @@
         </div>
     </div>
 {% endblock %}
-{% block GAnalytics %}
+{% block FabMenu %}
+{{ super() }}
+{% endblock %}
+{% block footer %}
+{{ super() }}
+{% endblock %}
+{% block JS %}
 {{ super() }}
 {% endblock %}
