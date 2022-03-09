@@ -7,7 +7,7 @@
 {{ super() }}
 {% endblock %}
 {% block body %}
-    <div class="container col-xxl-8 px-4 py-5">
+    <div class="container col-xxl-8 px-4 py-md-5 py-sm-2">
         <div class="row flex-lg-row align-items-center g-5 py-5">
           <div class="col-10 col-sm-8 col-lg-6">
             <img src="{{url_for('show_image', image='me.png')}}" class="d-block mx-lg-auto img-fluid" alt="A photo of Adam Schoenfeld" width="700" height="500" loading="lazy">
@@ -30,7 +30,7 @@
             <h1 id="ProjectsHeader">Projects</h1>
         </div>
         <div class="card-body bg-light">
-            <div id="ProjectCards" class="container">
+            <div id="ProjectCards" class="container-fluid">
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     {% for project in projects %}
                     <div class="col py-2">
