@@ -5,6 +5,11 @@
 !.elasticbeanstalk/*.global.yml
 
 .env
-.venv
+.venv/*
 
+*.code-workspace
+noupload/*
 *.zip
+
+https-cert.crt
+private-key.pem

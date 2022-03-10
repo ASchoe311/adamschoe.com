@@ -1,0 +1,6 @@
+ignore/*
+*.code-workspace
+private-key.pem
+https-cert.crt
+noupload/*
+sql/db.sqlite3

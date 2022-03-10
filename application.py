@@ -5,12 +5,29 @@ from dotenv import dotenv_values
 from werkzeug.utils import secure_filename
 from flask_mail import Mail, Message
 import sqlite3
+import pathlib
 
 application = flask.Flask(__name__)
-application.config.from_pyfile('config.py')
-# print(application.config.get_namespace('ALLOWED_'))
-# print(application.config.get_namespace('SITE_'))
-# print(pathlib.Path(__file__).resolve().parent)
+
+SITE_ROOT = pathlib.Path(__file__).resolve().parent
+
+application.config.update(
+    APPLICATION_ROOT='/',
+    SECRET_KEY=bytes(dotenv_values('.env')['FLASK_SECRET_KEY'], 'utf-8'),
+    SITE_ROOT=SITE_ROOT,
+    IMAGES_FOLDER=SITE_ROOT/'static'/'images',
+    PDF_FOLDER=SITE_ROOT/'static'/'pdfs',
+    MAX_CONTENT_LENGTH=16 * 1024 * 1024,
+    IMG_UPLOAD_FOLDER=SITE_ROOT/'static'/'images',
+    PDF_UPLOAD_FOLDER=SITE_ROOT/'static'/'pdfs',
+    DATABASE_FILENAME=SITE_ROOT/'sql'/'db.sqlite3',
+    MAIL_SERVER='email-smtp.us-east-2.amazonaws.com',
+    MAIL_PORT=587,
+    MAIL_USE_TLS=True,
+    MAIL_USERNAME=dotenv_values('.env')['SES_USERNAME'],
+    MAIL_PASSWORD=dotenv_values('.env')['SES_PASSWORD'],
+    MAIL_DEBUG=False
+)
 
 num_projects = 0
 
@@ -220,4 +237,4 @@ def change_resume():
         return flask.render_template_string('<h1 style="text-align: center;">Sorry, this is for my personal use only! Nice try though!</h1>')
 
 if __name__ == '__main__':
-    application.run(debug=False)
+    application.run(debug=True)
