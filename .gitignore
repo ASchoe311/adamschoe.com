@@ -11,5 +11,7 @@
 noupload/*
 *.zip
 
+sql/db.sqlite3
+
 https-cert.crt
 private-key.pem
