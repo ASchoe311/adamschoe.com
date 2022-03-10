@@ -22,7 +22,7 @@ case $1 in
   "prod")
     export FLASK_ENV=production
     sed -i 's/application.run(debug=True)/application.run(debug=False)/' application.py
-    uwsgi --http :5000 --wsgi-file application.py --master --processes 4 --threads 2
+    uwsgi --http :8000 --wsgi-file application.py --master --processes 4 --threads 2
     ;;
   *)
     usage
