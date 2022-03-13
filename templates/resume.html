@@ -1,23 +1,29 @@
 {% extends "base.html" %}
 {% block head %}
 {{ super() }}
+<title>Resume</title>
 {% endblock %}
 {% block header %}
 {{ super() }}
 {% endblock %}
 {% block body %}
-    <div id="container">
+<embed src="{{url_for('show_pdf', pdf=resFile)}}" type="application/pdf" width="100%" height="600px" />
+    <!-- <div class="container-fluid" id="container">
         <object
             data="{{url_for('show_pdf', pdf=resFile)}}"
             type="application/pdf"
-            style="width: 100vw; height: 100vh;"
+            width="100%"
+            height="100vh"
         >
         </object>
-    </div>
+    </div> -->
 {% endblock %}
 {% block FabMenu %}
 {{ super() }}
 {% endblock %}
-{% block GAnalytics %}
+{% block footer %}
+{{ super() }}
+{% endblock %}
+{% block JS %}
 {{ super() }}
 {% endblock %}

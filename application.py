@@ -134,11 +134,6 @@ def show_contact_info():
 
 @application.route('/resume')
 def show_resume():
-    # connection = get_db()
-    # cur = connection.execute(
-    #     'SELECT resume_file FROM myinfo'
-    # )
-    # resFile = cur.fetchone()['resume_file']
     # iFrameUrl = f"https://docs.google.com/viewer?url=your_url_to_pdf&embedded=true"
     # return flask.render_template('resume.html', resFile=myinfo['resume_file'], page='resume')
     return flask.redirect(flask.url_for('show_pdf', pdf='res.pdf'))
@@ -237,4 +232,4 @@ def change_resume():
         return flask.render_template_string('<h1 style="text-align: center;">Sorry, this is for my personal use only! Nice try though!</h1>')
 
 if __name__ == '__main__':
-    application.run(debug=True)
+    application.run(debug=False)

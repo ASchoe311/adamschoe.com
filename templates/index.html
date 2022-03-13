@@ -2,25 +2,47 @@
 {% block head %}
 {{ super() }}
 <title>Adam Schoenfeld</title>
+<!-- "alumniOf": [
+        {
+            "@type": "CollegeOrUniversity",
+            "name": "University of Michigan - Ann Arbor",
+            "image": [
+                {
+                    "@type": "ImageObject",
+                    "caption": "University of Michigan Logo",
+                    "url": "https://umich.edu/skins/um2013/media/images/umich-logo.png"
+                }
+            ],
+            "telephone": "(734) 764-1817",
+            "address": "500 S State St, Ann Arbor, MI 48109",
+            "addressCountry": "USA",
+            "sameAs": "https://umich.edu/" 
+        }
+      ] -->
 {% endblock %}
 {% block header %}
 {{ super() }}
 {% endblock %}
 {% block body %}
     <div class="container col-xxl-8 px-4 py-md-5 py-sm-2">
-        <div class="row flex-lg-row align-items-center g-5 py-5">
+        <div itemscope itemtype="http://schema.org/Person" class="row flex-lg-row align-items-center g-5 py-5">
+          <meta itemprop="gender" content="Male">
+          <meta itemprop="birthDate" content="May 25, 1999">
+          <meta itemprop="jobTitle" content="Software Engineer">
+          <meta itemprop="email" content="aschoe@umich.edu">
+          <meta itemprop="url" content="https://www.adamschoe.com">
           <div class="col-10 col-sm-8 col-lg-6">
-            <img src="{{url_for('show_image', image='me.png')}}" class="d-block mx-lg-auto img-fluid" alt="A photo of Adam Schoenfeld" width="700" height="500" loading="lazy">
+            <img itemprop="image" src="{{url_for('show_image', image='adamschoenfeld.png')}}" class="d-block mx-lg-auto img-fluid" alt="A photo of Adam Schoenfeld" width="700" height="500" loading="lazy">
           </div>
           <div class="col-lg-6">
             <h6>Hi, my name is</h6>
-            <h1 class="display-5 fw-bold lh-1 mb-3 mx-sm-2">Adam Schoenfeld</h1>
-            <p class="lead">
+            <h1 itemprop="name" class="display-5 fw-bold lh-1 mb-3 mx-sm-2">Adam Schoenfeld</h1>
+            <p itemprop="description" class="lead">
                 I am a dedicated and ambitious software engineer with <strong style="color: #000; font-weight: bold;">full-stack development talents</strong>. I am highly experienced with Python, C++, and JavaScript, and have developed a unique and varied portfolio of applications. I am currently open to job offers for any software engineering positions, and look forward to hearing from you soon!
             </p>
             <div class="d-grid gap-4 d-md-flex justify-content-md-start">
-              <a href="https://github.com/ASchoe311" target="_blank" class="btn btn-outline-primary btn-lg px-4 me-md-2 mr-1">My GitHub</a>
-              <a href="https://www.linkedin.com/in/adam-schoenfeld-020133187/" target="_blank" class="btn btn-outline-primary btn-lg px-4">My LinkedIn</a>
+              <a itemprop="sameAs" href="https://github.com/ASchoe311" target="_blank" class="btn btn-outline-primary btn-lg px-4 me-md-2 mr-1">My GitHub</a>
+              <a itemprop="sameAs" href="https://www.linkedin.com/in/adam-schoenfeld-020133187/" target="_blank" class="btn btn-outline-primary btn-lg px-4">My LinkedIn</a>
             </div>
           </div>
         </div>
@@ -34,10 +56,21 @@
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     {% for project in projects %}
                     <div class="col py-2">
-                        <div class="ProjectCard card h-100">
+                        <div itemscope itemtype="https://schema.org/SoftwareApplication" class="ProjectCard card h-100">
+                            <div itemprop="maintainer" itemscope itemtype="https://schema.org/person">
+                                <meta itemprop="name" content="Adam Schoenfeld">
+                                <meta itemprop="email" content="aschoe@umich.edu">
+                            </div>
+                            <meta itemprop="operatingSystem" content="Any">
+                            <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                                <meta itemprop="priceCurrency" content="USD">
+                                <meta itemprop="price" content="0.00">
+                            </div>
                             <div class="card-header">
                                 {% if project.is_wip %}
-                                <span class="badge rounded-pill bg-warning font-weight-bold text-white float-end mt-1" data-mdb-toggle="tooltip" title="This project is a Work-In-Progress">WIP</span>
+                                <span itemprop="creativeWorkStatus" class="badge rounded-pill bg-warning font-weight-bold text-white float-end mt-1" data-mdb-toggle="tooltip" title="This project is a Work-In-Progress">WIP</span>
+                                {% else %}
+                                <span itemprop="creativeWorkStatus" class="badge rounded-pill bg-success font-weight-bold text-white float-end mt-1" data-mdb-toggle="tooltip" title="This project is Completed">Completed</span>
                                 {% endif %}
                                 {% for lang in project.languages %}
                                 <span class="badge rounded-pill bg-info font-weight-bold text-white" data-mdb-toggle="tooltip" title="Written using {{ lang }}">{{ lang }}</span>
@@ -46,12 +79,12 @@
                                 </span> -->
                                 {% endfor %}
                                 <a href="{{ project.github_url }}" class="ProjectLink card-title mx-2 text-decoration-none">
-                                    <h3 class="text-center my-1">{{ project.title }}</h3>
+                                    <h3 itemprop="name" class="text-center my-1">{{ project.title }}</h3>
                                 </a>
                             </div>
-                            <img src="{{url_for('show_image', image=project.image)}}" class="ProjectImage card-img">
+                            <img src="{{url_for('show_image', image=project.image)}}" itemprop="thumbnailUrl" class="ProjectImage card-img">
                             <div class="card-body">
-                                <p class="ProjectDescription card-text">{{ project.description }}</p>
+                                <p itemprop="description" class="ProjectDescription card-text">{{ project.description }}</p>
                                 {% if project.extras %}
                                 {% for ext in project.extras %}
                                 <a href="{{ ext[0] }}" target="_blank"class="card-link">{{ ext[1] }}</a>
@@ -59,7 +92,7 @@
                                 {% endif %}
                             </div>
                             <div class="card-footer text-center">
-                                <a href="{{ project.github_url }}" class="btn btn-primary">View on Github</a>
+                                <a href="{{ project.github_url }}" itemprop="url" class="btn btn-primary">View on Github</a>
                             </div>
                         </div>
                     </div>
