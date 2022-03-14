@@ -1,6 +1,14 @@
-ignore/*
+ignore/
 *.code-workspace
 private-key.pem
 https-cert.crt
-noupload/*
+noupload/
 sql/db.sqlite3
+node_modules/
+js/
+webpack.config.js
+package.json
+package-lock.json
+api.py
+public/
+*.OLD

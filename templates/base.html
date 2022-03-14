@@ -6,7 +6,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Adam Schoenfeld's Portfolio Site" />
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css">
    
     <!-- CSS only -->
@@ -29,42 +28,6 @@
     />
     
     {% endblock %}
-    <script type="application/ld+json">
-        {
-         "@context": "https://schema.org",
-         "@type": "BreadcrumbList",
-         "itemListElement":
-         [
-          {
-           "@type": "ListItem",
-           "position": 1,
-           "item":
-           {
-            "@id": "https://adamschoe.com",
-            "name": "Home"
-            }
-          },
-          {
-           "@type": "ListItem",
-          "position": 2,
-          "item":
-           {
-             "@id": "https://adamschoe.com/contact",
-             "name": "Contact Me"
-           }
-          },
-          {
-            "@type": "ListItem",
-           "position": 2,
-           "item":
-            {
-              "@id": "http://127.0.0.1:5000/static/pdfs/res.pdf",
-              "name": "Resume"
-            }
-          }
-         ]
-        }
-        </script>
 </head>
 
 <body>
@@ -147,9 +110,9 @@
             <section class="">
               <p class="d-flex justify-content-center align-items-center">
                 <span class="me-3">Site created using Flask with Jinja2 templates and hosted on AWS Elastic Beanstalk</span>
-                <a class="btn btn-dark btn-lg" href="https://github.com/ASchoe311/adamschoe.com" target="_blank">
+                <a class="btn btn-dark btn-lg  hover-overlay ripple ripple-surface-light" href="https://github.com/ASchoe311/adamschoe.com" target="_blank">
                     <i class="fab fa-github fa-lg px-1"></i>
-                    View Source Code
+                    Source Code
                 </a>
               </p>
             </section>

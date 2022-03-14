@@ -8,6 +8,33 @@
       document.getElementById("emailform").submit();
     }
 </script>
+<script type="application/ld+json">
+    {
+     "@context": "https://schema.org",
+     "@type": "BreadcrumbList",
+     "itemListElement":
+     [
+      {
+       "@type": "ListItem",
+       "position": 1,
+       "item":
+       {
+        "@id": "https://adamschoe.com",
+        "name": "Home"
+        }
+      },
+      {
+       "@type": "ListItem",
+      "position": 2,
+      "item":
+       {
+         "@id": "https://adamschoe.com/contact",
+         "name": "Contact Me"
+       }
+      }
+     ]
+    }
+    </script>
 {% endblock %}
 {% block header %}
 {{ super() }}
@@ -51,21 +78,21 @@
                 <div class="col py-4">
                     <h4 class="pb-3">Send me an email:</h4>
                     <form action="{{ url_for('show_contact_info') }}" method="POST" enctype="multipart/form-data" id="emailform">
-                        <div class="form-group">
-                            <label for="InputName">Your name</label>
+                        <div class="form-group form-outline mb-4">
                             <input type="text" class="form-control" id="InputName" name="name" placeholder="John Doe" required>
+                            <label class="form-label" for="InputName">Your name</label>
                           </div>
-                        <div class="form-group">
-                            <label for="InputEmail">Your email address</label>
+                        <div class="form-group form-outline mb-4">
                             <input type="email" class="form-control" id="InputEmail" name="email" placeholder="johndoe@gmail.com" required>
+                            <label class="form-label" for="InputEmail">Your email address</label>
                           </div>
-                          <div class="form-group">
-                            <label for="InputSubject">Subject</label>
-                            <input type="text" class="form-control" id="InputSubject" name="subject" placeholder="Email subject" required>
+                          <div class="form-group form-outline mb-4">
+                              <input type="text" class="form-control" id="InputSubject" name="subject" placeholder="Email subject" required>
+                              <label class="form-label" for="InputSubject">Subject</label>
                           </div>
-                          <div class="form-group pb-2">
-                            <label for="InputBody">Email body</label>
-                            <textarea class="form-control" id="InputBody" rows="3" name="body" placeholder="Your email text" required></textarea>
+                          <div class="form-group form-outline mb-4 pb-2">
+                              <textarea class="form-control" id="InputBody" rows="3" name="body" placeholder="Your email text" required></textarea>
+                              <label class="form-label" for="InputBody">Email body</label>
                           </div>
                           <button class="g-recaptcha btn btn-primary" data-sitekey="6LdOdb0eAAAAAF7K1a7MBzpSRclag1xjDrem2IAm" data-callback="onSubmit" data-acion="submit">Send Email</button>
                     </form>

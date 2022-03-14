@@ -15,3 +15,12 @@ sql/db.sqlite3
 
 https-cert.crt
 private-key.pem
+
+node_modules/
+js/
+webpack.config.js
+package.json
+package-lock.json
+api.py
+public/
+*.OLD
