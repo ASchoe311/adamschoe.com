@@ -6,6 +6,16 @@ from werkzeug.utils import secure_filename
 from flask_mail import Mail, Message
 import sqlite3
 import pathlib
+from flask_wtf import Form
+from wtforms import StringField, EmailField, TextAreaField
+from wtforms.validators import Length, Email, InputRequired
+
+
+class EmailForm(Form):
+    name = StringField('name', validators=[InputRequired(), Length(min=6)])
+    email = EmailField('email', validators=[InputRequired(), Email()])
+    subject = StringField('subject', validators=[InputRequired(), Length(min=2)])
+    body = TextAreaField('body', validators=[InputRequired(), Length(min=10)])
 
 application = flask.Flask(__name__)
 
@@ -111,32 +121,23 @@ def show_index():
 
 @application.route("/contact", methods=["GET", "POST"])
 def show_contact_info():
-    # connection = get_db()
-    # cur = connection.execute(
-    #     'SELECT * FROM myinfo'
-    # )
-    # myinfo = cur.fetchone()
     context = {'myinfo': myinfo, 'page': 'contact', 'alert_success': False}
-    if flask.request.method == 'POST':
-        formData = {}
-        formData['name'] = flask.request.form.get('name')
-        formData['email'] = flask.request.form.get('email')
-        formData['subject'] = flask.request.form.get('subject')
-        formData['body'] = flask.request.form.get('body')
-        # print(formData)
-        emailBody = f"{formData['name']} <{formData['email']}> says:\n\n{formData['body']}"
-        msg = Message(formData['subject'], recipients=['aschoe@umich.edu'], body=emailBody, sender=('contactform@adamschoe.com'))
-        # print(msg)
+    form = EmailForm(flask.request.form)
+    if flask.request.method == 'POST' and form.validate():
+        emailBody = f"{form.data['name']} <{form.data['email']}> says:\n\n{form.data['body']}"
+        msg = Message(form.data['subject'], recipients=['aschoe@umich.edu'], body=emailBody, sender=('contactform@adamschoe.com'))
+        # flask.flash(msg)
         mail.send(msg)
         context['alert_success'] = True
-    return flask.render_template('contact.html', **context)
+        form.name.data = form.email.data = form.subject.data = form.body.data = ""
+    return flask.render_template('contact.html', **context, form=form)
         
 
 @application.route('/resume')
 def show_resume():
     # iFrameUrl = f"https://docs.google.com/viewer?url=your_url_to_pdf&embedded=true"
-    # return flask.render_template('resume.html', resFile=myinfo['resume_file'], page='resume')
-    return flask.redirect(flask.url_for('show_pdf', pdf='res.pdf'))
+    return flask.render_template('resume.html', resFile=myinfo['resume_file'], page='resume')
+    # return flask.redirect(flask.url_for('show_pdf', pdf='res.pdf'))
 
 @application.route("/static/images/<image>", methods=["GET"])
 def show_image(image):

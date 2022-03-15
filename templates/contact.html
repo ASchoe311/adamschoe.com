@@ -64,37 +64,65 @@
                         <dd>
                             {{ myinfo.phone_num }}
                         </dd>
-                    
-                        <!-- <dt>Address</dt>
-                        <dd>
-                            <p>{{ myinfo.addr_ln1 }}</p>
-                            {% if 'addr_ln2' in myinfo.keys() %}
-                                <p>{{ myinfo.addr_ln2 }}</p>
-                            {% endif %}
-                            <p>{{ myinfo.city }}, {{ myinfo.state }} {{ myinfo.zip}}</p>
-                        </dd> -->
                     </dl>
                 </div>
                 <div class="col py-4">
                     <h4 class="pb-3">Send me an email:</h4>
                     <form action="{{ url_for('show_contact_info') }}" method="POST" enctype="multipart/form-data" id="emailform">
-                        <div class="form-group form-outline mb-4">
-                            <input type="text" class="form-control" id="InputName" name="name" placeholder="John Doe" required>
-                            <label class="form-label" for="InputName">Your name</label>
-                          </div>
-                        <div class="form-group form-outline mb-4">
-                            <input type="email" class="form-control" id="InputEmail" name="email" placeholder="johndoe@gmail.com" required>
-                            <label class="form-label" for="InputEmail">Your email address</label>
-                          </div>
-                          <div class="form-group form-outline mb-4">
-                              <input type="text" class="form-control" id="InputSubject" name="subject" placeholder="Email subject" required>
-                              <label class="form-label" for="InputSubject">Subject</label>
-                          </div>
-                          <div class="form-group form-outline mb-4 pb-2">
-                              <textarea class="form-control" id="InputBody" rows="3" name="body" placeholder="Your email text" required></textarea>
-                              <label class="form-label" for="InputBody">Email body</label>
-                          </div>
-                          <button class="g-recaptcha btn btn-primary" data-sitekey="6LdOdb0eAAAAAF7K1a7MBzpSRclag1xjDrem2IAm" data-callback="onSubmit" data-acion="submit">Send Email</button>
+                        <div class="form-group mb-4 justify-content-center align-items-center">
+                            <div class="form-outline">
+                                <!-- <input type="text" class="form-control" id="InputName" name="name" placeholder="John Doe" required> -->
+                                {{ form.name(class="form-control", placeholder="John Doe")|safe }}
+                                <label class="form-label" for="name">Your name</label>
+                            </div>
+                            {% if form.name.errors %}
+                            {% for error in form.name.errors %}
+                            <div class="d-flex align-items-center justify-content-center pt-2">
+                                <span class="chip w-100 chip-outline btn-outline-danger w-50 text-center text-chip">{{ error }}</span>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="form-group mb-4">
+                            <div class="form-outline">
+                                {{ form.email(class="form-control", placeholder="johndoe@email.com")|safe }}
+                                <label class="form-label" for="email">Your email</label>
+                            </div>
+                            {% if form.email.errors %}
+                            {% for error in form.email.errors %}
+                            <div class="d-flex align-items-center justify-content-center pt-2">
+                                <span class="chip w-100 chip-outline btn-outline-danger w-50 text-center text-chip">{{ error }}</span>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="form-group mb-4 align-items-center justify-content-center">
+                            <div class="form-outline">
+                                {{ form.subject(class="form-control", placeholder="Hi, Adam")|safe }}
+                                <label class="form-label" for="subject">Subject</label>
+                            </div>
+                            {% if form.subject.errors %}
+                            {% for error in form.subject.errors %}
+                            <div class="container-fluid align-items-center justify-content-center pt-2">
+                                <span class="chip w-100 chip-outline btn-outline-danger w-50 text-center text-chip">{{ error }}</span>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="form-group mb-4">
+                            <div class="form-outline pb-2">
+                                {{ form.body(class="form-control")|safe }}
+                                <label class="form-label" for="body">Email body</label>
+                            </div>
+                            {% if form.body.errors %}
+                            {% for error in form.body.errors %}
+                            <div class="d-flex align-items-center justify-content-center pt-2">
+                                <span class="chip w-100 chip-outline btn-outline-danger w-50 text-center text-chip">{{ error }}</span>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                        <input class="g-recaptcha btn btn-primary" data-sitekey="6LdOdb0eAAAAAF7K1a7MBzpSRclag1xjDrem2IAm" data-callback="onSubmit" data-action="submit" type="submit" value="Send Email">
                     </form>
                 </div>
             </div>

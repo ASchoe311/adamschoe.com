@@ -42,8 +42,10 @@
      ]
     }
 </script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.14.0/devicon.min.css">
-
+<link rel="preload" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.14.0/devicon.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.14.0/devicon.min.css">
+</noscript>
 {% endblock %}
 {% block header %}
 {{ super() }}
@@ -57,7 +59,7 @@
           <meta itemprop="email" content="aschoe@umich.edu">
           <meta itemprop="url" content="https://www.adamschoe.com">
           <div class="col-10 col-sm-8 col-lg-6">
-            <img itemprop="image" src="{{url_for('show_image', image='adamschoenfeld.webp')}}" class="d-block mx-lg-auto img-fluid" alt="A photo of Adam Schoenfeld" width="700" height="500" loading="lazy">
+            <img itemprop="image" src="{{url_for('show_image', image='adamschoenfeld.webp')}}" class="d-block mx-lg-auto img-fluid" alt="A photo of Adam Schoenfeld" width="700" height="500">
           </div>
           <div class="col-lg-6">
             <h6>Hi, my name is</h6>
@@ -176,7 +178,7 @@
         data-mdb-target="#skillCollapse"
         aria-expanded="true"
         aria-controls="skillCollapse"
-        id="skill-collapse"
+        id="skill-collapse-btn"
         >
         View More
         </button>
@@ -198,7 +200,7 @@
                         <meta itemprop="price" content="0.00">
                     </div>
                     <div class="bg-image shadow-4-strong rounded mx-3">
-                        <img src="{{url_for('show_image', image=project.image)}}" itemprop="thumbnailUrl" class="img-fluid" alt="Thumbnail for {{ project.title }}">
+                        <img src="{{url_for('show_image', image=project.image)}}" itemprop="thumbnailUrl" class="img-fluid" alt="Thumbnail for {{ project.title }}" loading="lazy">
                     </div>
                     <div class="card-body">
                         {% if project.is_wip %}
@@ -242,13 +244,14 @@
 {% endblock %}
 {% block JS %}
 {{ super() }}
-<script defer type="text/javascript">
-    $('#skill-collapse').click(function(){
-        if ($('#skill-collapse').text().search("More") != -1) {
-            $('#skill-collapse').text("View Less");
+<script type="text/javascript">
+    document.getElementById("skill-collapse-btn").addEventListener("click", function(e){
+        // console.log(e.srcElement.innerText)
+        if (e.srcElement.innerText == "VIEW MORE") {
+            document.getElementById("skill-collapse-btn").innerHTML = "View Less"
         }
         else {
-            $('#skill-collapse').text("View More");
+            document.getElementById("skill-collapse-btn").innerHTML = "View More"
         }
     });
 </script>
