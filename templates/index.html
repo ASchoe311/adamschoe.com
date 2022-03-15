@@ -57,7 +57,7 @@
           <meta itemprop="email" content="aschoe@umich.edu">
           <meta itemprop="url" content="https://www.adamschoe.com">
           <div class="col-10 col-sm-8 col-lg-6">
-            <img itemprop="image" src="{{url_for('show_image', image='adamschoenfeld.png')}}" class="d-block mx-lg-auto img-fluid" alt="A photo of Adam Schoenfeld" width="700" height="500" loading="lazy">
+            <img itemprop="image" src="{{url_for('show_image', image='adamschoenfeld.webp')}}" class="d-block mx-lg-auto img-fluid" alt="A photo of Adam Schoenfeld" width="700" height="500" loading="lazy">
           </div>
           <div class="col-lg-6">
             <h6>Hi, my name is</h6>
@@ -198,7 +198,7 @@
                         <meta itemprop="price" content="0.00">
                     </div>
                     <div class="bg-image shadow-4-strong rounded mx-3">
-                        <img src="{{url_for('show_image', image=project.image)}}" itemprop="thumbnailUrl" class="img-fluid">
+                        <img src="{{url_for('show_image', image=project.image)}}" itemprop="thumbnailUrl" class="img-fluid" alt="Thumbnail for {{ project.title }}">
                     </div>
                     <div class="card-body">
                         {% if project.is_wip %}
@@ -242,7 +242,7 @@
 {% endblock %}
 {% block JS %}
 {{ super() }}
-<script type="text/javascript">
+<script defer type="text/javascript">
     $('#skill-collapse').click(function(){
         if ($('#skill-collapse').text().search("More") != -1) {
             $('#skill-collapse').text("View Less");

@@ -17,7 +17,6 @@ https-cert.crt
 private-key.pem
 
 node_modules/
-js/
 webpack.config.js
 package.json
 package-lock.json
