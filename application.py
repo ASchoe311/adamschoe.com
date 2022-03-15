@@ -236,4 +236,4 @@ def change_resume():
         return flask.render_template_string('<h1 style="text-align: center;">Sorry, this is for my personal use only! Nice try though!</h1>')
 
 if __name__ == '__main__':
-    application.run(debug=True)
+    application.run(debug=False)
