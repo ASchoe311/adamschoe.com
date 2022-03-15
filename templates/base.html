@@ -26,6 +26,12 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.css"
     rel="stylesheet"
     />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('show_image', image='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('show_image', image='/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('show_image', image='/favicon-16x16.png') }}">
+    <link rel="manifest" href="/static/site.webmanifest">
+
     
     {% endblock %}
 </head>
@@ -33,8 +39,9 @@
 <body>
     {% block header %}
     <header class="site-header py-1 d-none d-md-block sticky-top">
-        <nav class="navbar navbar-expand-md navbar-light bg-light justify-content-md-center">
-            <ul class="navbar-nav mb-2 mb-lg-0 align-items-center">
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+            <div class="container-fluid justify-content-center">
+            <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
                     {% if page == 'index' %}
                     <a class="nav-link active" aria-current="page" href="{{ url_for('show_index') }}">| Home |</a>
@@ -63,6 +70,7 @@
                     <a class="nav-link" href="https://www.linkedin.com/in/adam-schoenfeld-020133187/" target="_blank">My LinkedIn</a>
                 </li>
             </ul>
+            </div>
         </nav>
     </header>
     {% endblock %}
