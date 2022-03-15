@@ -146,6 +146,10 @@ def show_image(image):
 def show_pdf(pdf):
     return flask.send_from_directory(application.static_folder, 'pdfs/' + pdf)
 
+@application.route("/static/images/<svg>", methods=["GET"])
+def show_svg(svg):
+    return flask.send_from_directory(application.static_folder, 'images/' + svg)
+
 @application.route("/addproject", methods=["GET", "POST"])
 def add_project():
     if flask.request.method == 'GET':
@@ -232,4 +236,4 @@ def change_resume():
         return flask.render_template_string('<h1 style="text-align: center;">Sorry, this is for my personal use only! Nice try though!</h1>')
 
 if __name__ == '__main__':
-    application.run(debug=False)
+    application.run(debug=True)

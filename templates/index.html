@@ -48,7 +48,7 @@
 {{ super() }}
 {% endblock %}
 {% block body %}
-    <div class="container col-xxl-8 px-4 py-md-5 py-sm-2">
+    <div class="container col-xxl-8 px-4 pt-md-5 pt-sm-2">
         <div itemscope itemtype="http://schema.org/Person" class="row flex-lg-row align-items-center g-5 py-5">
           <meta itemprop="gender" content="Male">
           <meta itemprop="birthDate" content="May 25, 1999">
@@ -72,106 +72,78 @@
         </div>
     </div>
 
-
-
-        <section class="mb-5 mx-5">
+    <div class="container my-5">
+        <div class="text-center">
             <div class="d-flex justify-content-center">
                 <div class="text-center" style="max-width: 700px">
                     <h2 class="fw-bold mb-4 text-primary">Skills</h2>
                     <p class="text-muted mb-5">Highlights of the languages, frameworks, and tools I have gained experience with.</p>
                 </div> 
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-6 mb-5">
-                    <div class="d-flex align-items-start">
-                        <div class="flex-shrink-0">
-                            <i class="mdi mdi-36px mdi-language-python"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <p class="fw-bold mb-1">Python</p>
-                            <p class="text-muted mb-0">Pellentesque mollis, metus nec fringilla aliquam</p>
-                        </div> 
+            <div class="row row-cols-3 row-cols-lg-5">
+                <div class="col">
+                    <div class="p-2 bg-primary rounded shadow-2-strong d-inline-block mb-4">
+                        <i class="mdi mdi-36px mdi-light mx-2 mdi-language-python"></i>
                     </div>
+                    <h5 class="fw-bold mb-5">Python</h5>
                 </div>
-                <div class="col-lg-3 col-md-6 mb-5">
-                    <div class="d-flex align-items-start">
-                        <div class="flex-shrink-0">
-                            <i class="mdi mdi-36px mdi-language-cpp"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <p class="fw-bold mb-1">C++</p>
-                            <p class="text-muted mb-0">Magna lacus iaculis elit, quis pharetra varius.</p>
-                        </div>
+                <div class="col">
+                    <div class="p-2 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
+                        <i class="mdi mdi-36px mdi-light mx-2 mdi-language-cpp"></i>
                     </div>
+                    <h5 class="fw-bold mb-5">C++</h5>
                 </div>
-                <div class="col-lg-3 col-md-6 mb-5">
-                    <div class="d-flex align-items-start">
-                        <div class="flex-shrink-0">
-                            <i class="mdi mdi-36px mdi-language-javascript"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <p class="fw-bold mb-1">JavaScript</p>
-                            <p class="text-muted mb-0">Magna lacus iaculis elit, quis pharetra varius.</p>
-                        </div>
+                <div class="col">
+                    <div class="p-2 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
+                        <i class="mdi mdi-36px mdi-light mx-2 mdi-language-javascript"></i>
                     </div>
+                    <h5 class="fw-bold mb-5">JavaScript</h5>
                 </div>
-                <div class="col-lg-3 col-md-6 mb-5">
-                    <div class="d-flex align-items-start">
-                        <div class="flex-shrink-0">
-                            <i class="mdi mdi-36px mdi-language-html5"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <p class="fw-bold mb-1">HTML</p>
-                            <p class="text-muted mb-0">Magna lacus iaculis elit, quis pharetra varius.</p>
-                        </div>
+                <div class="col">
+                    <div class="p-2 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
+                        <i class="mdi mdi-36px mdi-light mx-2 mdi-language-html5"></i>
                     </div>
+                    <h5 class="fw-bold mb-5">HTML5</h5>
                 </div>
-                <div class="col-lg-3 col-md-6 mb-5">
-                    <div class="d-flex align-items-start">
-                        <div class="flex-shrink-0">
-                            <i class="mdi mdi-36px mdi-language-java"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <p class="fw-bold mb-1">Java</p>
-                            <p class="text-muted mb-0">Magna lacus iaculis elit, quis pharetra varius.</p>
-                        </div>
+                <div class="col">
+                    <div class="p-2 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
+                        <i class="mdi mdi-36px mdi-light mx-2 mdi-language-css3"></i>
                     </div>
+                    <h5 class="fw-bold mb-5">CSS3</h5>
                 </div>
-                <div class="col-lg-3 col-md-6 mb-5">
-                    <div class="d-flex align-items-start">
-                        <div class="flex-shrink-0">
-                            <i class="mdi mdi-36px mdi-git"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <p class="fw-bold mb-1">Source Control</p>
-                            <p class="text-muted mb-0">Magna lacus iaculis elit, quis pharetra varius.</p>
-                        </div>
+                <div class="col">
+                    <div class="p-2 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
+                        <i class="mdi mdi-36px mdi-light mx-2 mdi-language-java"></i>
                     </div>
+                    <h5 class="fw-bold mb-5">Java</h5>
                 </div>
-                <div class="col-lg-3 col-md-6 mb-5">
-                    <div class="d-flex align-items-start">
-                        <div class="flex-shrink-0">
-                            <i class="mdi mdi-36px mdi-aws"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <p class="fw-bold mb-1">AWS</p>
-                            <p class="text-muted mb-0">Magna lacus iaculis elit, quis pharetra varius.</p>
-                        </div>
+                <div class="col">
+                    <div class="p-2 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
+                        <i class="mdi mdi-36px mdi-light mx-2 mdi-git"></i>
                     </div>
+                    <h5 class="fw-bold mb-5">Git/SVN</h5>
                 </div>
-                <div class="col-lg-3 col-md-6 mb-5">
-                    <div class="d-flex align-items-start">
-                        <div class="flex-shrink-0">
-                            <i class="mdi mdi-36px mdi-react"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <p class="fw-bold mb-1">React</p>
-                            <p class="text-muted mb-0">Magna lacus iaculis elit, quis pharetra varius.</p>
-                        </div>
+                <div class="col">
+                    <div class="p-2 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
+                        <i class="mdi mdi-36px mdi-light mx-2 mdi-aws"></i>
                     </div>
+                    <h5 class="fw-bold mb-5">AWS</h5>
                 </div>
-            </div>
-        </section>
+                <div class="col">
+                    <div class="p-2 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
+                        <i class="mdi mdi-36px mdi-light mx-2 mdi-react"></i>
+                    </div>
+                    <h5 class="fw-bold mb-5">React</h5>
+                </div>
+                <div class="col">
+                    <div class="p-2 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4" style="width:68px;height:73.59px;">
+                        <img src="{{url_for('show_svg', svg='pytorch.svg')}}" class="my-2"></i>
+                    </div>
+                    <h5 class="fw-bold mb-5">PyTorch</h5>
+                </div>
+            </div> 
+        </div>
+    </div>
 
     <div id="ProjectCards" class="container">
         <h2 class="fw-bold mb-4 text-center text-primary">Projects</h2>
