@@ -103,8 +103,8 @@
                             </div>
                             {% if form.subject.errors %}
                             {% for error in form.subject.errors %}
-                            <div class="container-fluid align-items-center justify-content-center pt-2">
-                                <span class="chip w-100 chip-outline btn-outline-danger w-50 text-center text-chip">{{ error }}</span>
+                            <div class="d-flex align-items-center justify-content-center pt-2">
+                                <span class="chip w-100 chip-outline btn-outline-danger text-center text-chip">{{ error }}</span>
                             </div>
                             {% endfor %}
                             {% endif %}
@@ -117,7 +117,7 @@
                             {% if form.body.errors %}
                             {% for error in form.body.errors %}
                             <div class="d-flex align-items-center justify-content-center pt-2">
-                                <span class="chip w-100 chip-outline btn-outline-danger w-50 text-center text-chip">{{ error }}</span>
+                                <span class="chip w-100 chip-outline btn-outline-danger text-center text-chip">{{ error }}</span>
                             </div>
                             {% endfor %}
                             {% endif %}
