@@ -15,6 +15,7 @@ from flask_login import (
     login_required,
     logout_user
 )
+from PIL import Image
 
 login_manager = LoginManager()
 login_manager.session_protection = "strong"
@@ -37,11 +38,12 @@ myinfo = {
 
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ['png', 'jpg', 'jpeg', 'gif']
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ['png', 'jpg', 'jpeg', 'gif', 'webp']
 
 @application.route('/')
 def show_index():
-    context = {'projects': json.loads(str(Project.query.all())), 'page': 'index'}
+    # print(str(Project.query.all()))
+    context = {'projects': sorted(json.loads(str(Project.query.all())), key=lambda x: x['id'], reverse=True), 'page': 'index'}
     return flask.render_template('index.html', **context)
 
 @application.route('/login', methods=['POST'])
@@ -92,6 +94,20 @@ def show_pdf(pdf):
 @application.route("/static/images/<svg>", methods=["GET"])
 def show_svg(svg):
     return flask.send_from_directory(application.static_folder, 'images/' + svg)
+
+@application.route("/uploadimg", methods=["POST"])
+@login_required
+def upload_img():
+    imgFile = flask.request.files['image']
+    filename = secure_filename(imgFile.filename)
+    if allowed_file(filename):
+        savePath = os.path.join(application.config['IMG_UPLOAD_FOLDER'], filename)
+        imgFile.save(savePath)
+        im = Image.open(savePath)
+        resized_im = im.resize((1400, 787))
+        newPath = os.path.join(application.config['IMG_UPLOAD_FOLDER'], filename.split('.')[0] + '.webp')
+        resized_im.save(newPath, format='webp')
+    return flask.redirect('/admin')
 
 @application.route("/updateresume" , methods=["GET", "POST"])
 @login_required

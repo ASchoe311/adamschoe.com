@@ -31,7 +31,7 @@ application.config.update(
     MAIL_USERNAME=dotenv_values('.env')['SES_USERNAME'],
     MAIL_PASSWORD=dotenv_values('.env')['SES_PASSWORD'],
     MAIL_DEBUG=False,
-    SQLALCHEMY_DATABASE_URI='sqlite:////tmp/db.sqlite',
+    SQLALCHEMY_DATABASE_URI='sqlite:///./sql/db.sqlite',
     SQLALCHEMY_TRACK_MODIFICATIONS=False
 )
 
@@ -71,8 +71,8 @@ class Project(db.Model):
     github_url = db.Column(db.String(80), nullable=False)
     image = db.Column(db.String(25), nullable=False)
     is_wip = db.Column(db.Boolean, nullable=False)
-    extras = db.relationship('Extra', backref='project', lazy=True)
-    languages = db.relationship('Language', backref='project', lazy=True)
+    extras = db.relationship('Extra', backref='project', cascade="all, delete-orphan", lazy=True)
+    languages = db.relationship('Language', backref='project', cascade="all, delete-orphan", lazy=True)
 
     def __repr__(self):
         return '{' + f"\"id\": {self.id}, \"title\": \"{self.title}\", \"description\": \"{self.description}\", \"github_url\": \"{self.github_url}\", \"image\": \"{self.image}\", \"languages\": {Language.query.filter_by(proj_id=self.id).all()}, \"is_wip\": {'true' if self.is_wip else 'false'}, \"extras\": {Extra.query.filter_by(proj_id=self.id).all()}" + '}'
@@ -87,14 +87,31 @@ def init_db():
     db.session.add(adminUser)
     db.session.commit()
 
+    # EASYTUYA
+    proj = Project(title="EasyTuya", github_url="https://github.com/ASchoe311/EasyTuya", image="tuyaimg.webp", is_wip=True, description="EasyTuya is a package containing nearly all needed functionality for interacting with your Tuya powered IOT devices through Python and Tuya's web API.")
+    extras = [
+        Extra(proj_id=1, text="PyPi Release", url="https://pypi.org/project/EasyTuya"),
+        Extra(proj_id=1, text="Documentation", url="https://aschoe311.github.io/EasyTuya")
+    ]
+    languages = [
+        Language(proj_id=1, lang="Python")
+    ]
+    db.session.add(proj)
+    for ext in extras:
+        db.session.add(ext)
+    db.session.commit()
+    for lang in languages:
+        db.session.add(lang)
+    db.session.commit()
+
     # QUEUEBOT
     proj = Project(title="QueueBot", github_url="https://github.com/ASchoe311/RicksDoorQueue", image="queuebotimg.webp", is_wip=False, description="QueueBot is a chat bot that runs in the staff GroupMe chat of my work. Since I and a majority of my coworkers are students, we often need shifts picked up. With a few simple commands QueueBot can keep track of the shift pickup queue for each day to simplify this process.")
     extras = [
-        Extra(proj_id=1, text="Live Queue Site", url="http://doorqueue.adamschoe.com")
+        Extra(proj_id=2, text="Live Queue Site", url="http://doorqueue.adamschoe.com")
     ]
     languages = [
-        Language(proj_id=1, lang="JavaScript"),
-        Language(proj_id=1, lang="HTML5")
+        Language(proj_id=2, lang="JavaScript"),
+        Language(proj_id=2, lang="HTML5")
     ]
     db.session.add(proj)
     for ext in extras:
@@ -103,22 +120,6 @@ def init_db():
         db.session.add(lang)
     db.session.commit()
 
-    # EASYTUYA
-    proj = Project(title="EasyTuya", github_url="https://github.com/ASchoe311/EasyTuya", image="tuyaimg.webp", is_wip=True, description="EasyTuya is a package containing nearly all needed functionality for interacting with your Tuya powered IOT devices through Python and Tuya's web API.")
-    extras = [
-        Extra(proj_id=2, text="PyPi Release", url="https://pypi.org/project/EasyTuya"),
-        Extra(proj_id=2, text="Documentation", url="https://aschoe311.github.io/EasyTuya")
-    ]
-    languages = [
-        Language(proj_id=2, lang="Python")
-    ]
-    db.session.add(proj)
-    for ext in extras:
-        db.session.add(ext)
-    db.session.commit()
-    for lang in languages:
-        db.session.add(lang)
-    db.session.commit()
 
 class LoginForm(Form):
     login = StringField(validators=[InputRequired()])

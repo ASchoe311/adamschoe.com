@@ -5,6 +5,14 @@
     <form action="{{ url_for('logout') }}" method="POST">
         <button type="submit">Log Out</button>
     </form>
+    <br>
+    <form action="{{ url_for('upload_img') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="InputImg">Image</label>
+            <input type="file" class="form-control" id="InputImg" name="image" required>
+        </div>
+        <button type="submit">Upload Image</button>
+    </form>
     {% else %}
     <form action="{{ url_for('login') }}" method="POST" enctype="multipart/form-data" id="loginform">
         {{ form.login }}<br>

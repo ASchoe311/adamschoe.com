@@ -16,7 +16,6 @@ itsdangerous==2.1.0
 Jinja2==3.0.3
 MarkupSafe==2.1.0
 pip-autoremove==0.10.0
-pkg_resources==0.0.0
 python-dotenv==0.19.2
 requests==2.27.1
 SQLAlchemy==1.4.32

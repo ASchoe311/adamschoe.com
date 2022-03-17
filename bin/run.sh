@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 set -x
 
-./bin/manage_db.sh create
+# ./bin/manage_db.sh create
 export FLASK_APP=application
 
 usage() {
