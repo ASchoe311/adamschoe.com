@@ -1,0 +1,15 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+    {% if status == 1 %}
+    <form action="{{ url_for('logout') }}" method="POST">
+        <button type="submit">Log Out</button>
+    </form>
+    {% else %}
+    <form action="{{ url_for('login') }}" method="POST" enctype="multipart/form-data" id="loginform">
+        {{ form.login }}<br>
+        {{ form.password }}<br>
+        <button type="submit">Log In</button>
+    </form>
+    {% endif %}
+{% endblock %}

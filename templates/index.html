@@ -220,7 +220,7 @@
                         <p itemprop="description" class="ProjectDescription card-text">{{ project.description }}</p>
                         {% if project.extras %}
                         {% for ext in project.extras %}
-                        <a href="{{ ext[0] }}" target="_blank"class="card-link">{{ ext[1] }}</a>
+                        <a href="{{ ext.url }}" target="_blank"class="card-link">{{ ext.text }}</a>
                         {% endfor %}
                         {% endif %}
                     </div>

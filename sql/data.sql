@@ -1,5 +1,5 @@
-INSERT INTO projects(title, github_url, `image`, `description`, languages, is_wip)
-VALUES ('Sentiment Analysis', 'github.com/repo/sampleurl.git', 'sentimentgraph.webp', 'SAMPLE DESCRIPTION', 'Python', FALSE);
+-- INSERT INTO projects(title, github_url, `image`, `description`, languages, is_wip)
+-- VALUES ('Sentiment Analysis', 'github.com/repo/sampleurl.git', 'sentimentgraph.webp', 'SAMPLE DESCRIPTION', 'Python', FALSE);
 INSERT INTO projects(title, github_url, `image`, `description`, languages, is_wip)
 VALUES ('EasyTuya', 'https://github.com/ASchoe311/EasyTuya', 'tuyaimg.webp',
 "EasyTuya is a package containing nearly all needed functionality for interacting with your Tuya powered IOT devices through Python and Tuya's web API.", 'Python', TRUE);
