@@ -39,7 +39,8 @@
         "name": "Home"
         }
       }
-     ]
+     ],
+     "name": "Home"
     }
 </script>
 <link rel="preload" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.14.0/devicon.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -59,7 +60,7 @@
           <meta itemprop="email" content="aschoe@umich.edu">
           <meta itemprop="url" content="https://www.adamschoe.com">
           <div class="col-10 col-sm-8 col-lg-6">
-            <img itemprop="image" src="{{url_for('show_image', image='adamschoenfeld.webp')}}" class="d-block mx-lg-auto img-fluid" alt="A photo of Adam Schoenfeld" width="700" height="500">
+            <img itemprop="image" src="{{url_for('show_image', image='adamschoenfeld.webp')}}" class="d-block mx-lg-auto img-fluid" alt="A photo of Adam Schoenfeld" width="432" height="432">
           </div>
           <div class="col-lg-6">
             <h6>Hi, my name is</h6>
@@ -200,7 +201,7 @@
                         <meta itemprop="price" content="0.00">
                     </div>
                     <div class="bg-image shadow-4-strong rounded mx-3">
-                        <img src="{{url_for('show_image', image=project.image)}}" itemprop="thumbnailUrl" class="img-fluid" alt="Thumbnail for {{ project.title }}" loading="lazy">
+                        <img src="{{url_for('show_image', image=project.image)}}" itemprop="thumbnailUrl" class="img-fluid" alt="Thumbnail for {{ project.title }}" loading="lazy" width="334" height="187.750">
                     </div>
                     <div class="card-body">
                         {% if project.is_wip %}
