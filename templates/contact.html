@@ -2,133 +2,162 @@
 {% block head %}
 {{ super() }}
 <title>Contact Me</title>
-<script src="https://www.google.com/recaptcha/api.js"></script>
+<!-- <script src="https://www.google.com/recaptcha/api.js"></script> -->
+<script src="https://www.google.com/recaptcha/api.js?render=6LdOdb0eAAAAAF7K1a7MBzpSRclag1xjDrem2IAm"></script>
 <script>
-    function onSubmit(token) {
-      document.getElementById("emailform").submit();
+    function onClick() {
+      grecaptcha.ready(function() {
+        grecaptcha.execute('6LdOdb0eAAAAAF7K1a7MBzpSRclag1xjDrem2IAm', {action: 'submit'}).then(function(token) {
+            // Add your logic to submit to your backend server here.
+            document.getElementById("recaptcha_token").value = token;
+            document.getElementById("emailform").submit();
+        });
+      });
     }
 </script>
 <script type="application/ld+json">
     {
-     "@context": "https://schema.org",
-     "@type": "BreadcrumbList",
-     "itemListElement":
-     [
-      {
-       "@type": "ListItem",
-       "position": 1,
-       "item":
-       {
-        "@id": "https://adamschoe.com",
-        "name": "Home"
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement":
+        [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "item":
+            {
+                "@id": "https://adamschoe.com",
+                "name": "Home"
+            }
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "item":
+            {
+                "@id": "https://adamschoe.com/contact",
+                "name": "Contact Me"
+            }
         }
-      },
-      {
-       "@type": "ListItem",
-      "position": 2,
-      "item":
-       {
-         "@id": "https://adamschoe.com/contact",
-         "name": "Contact Me"
-       }
-      }
-     ],
-     "name": "Contact"
+        ],
+        "name": "Contact"
     }
-    </script>
+</script>
 {% endblock %}
 {% block header %}
 {{ super() }}
 {% endblock %}
 {% block body %}
 
-    <h1 id="ContactInfoHeader" class="text-center py-3">Contact Me</h1>
-    {% if alert_success %}
-    <div class="container-md container-fluid">
-        <div class="alert alert-success " role="alert">
-            <h4 class="alert-heading">Email Sent!</h4>
-            <p>Thank you for reaching out to me, I will do my best to respond as soon as possible.</p>
-        </div>
+<h1 id="ContactInfoHeader" class="text-center py-3">Contact Me</h1>
+{% if alert_success == True %}
+<div class="container-md container-fluid">
+    <div class="alert alert-success " role="alert">
+        <h4 class="alert-heading">Email Sent!</h4>
+        <p>Thank you for reaching out to me, I will do my best to respond as soon as possible.</p>
     </div>
-    {% endif %}
-    <div class="jumbotron jumbotron-fluid bg-light">
-        <div class="container py-4">
-            <div class="row row-cols-1 row-cols-md-2">
-                <div class="col py-4">
-                    <h4 class="pb-3">My info:</h4>
-                    <dl>
-                        <dt>Email Addresses</dt>
-                        {% for email in myinfo.emails %}
-                        <dd>{{ email }}</dd>
+</div>
+{% endif %}
+{% if alert_success == False %}
+<div class="container-md container-fluid">
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Email Not Sent</h4>
+        <p>Your email was not sent. This was either an issue with SMTP or the domain you are sending from is blocked.</p>
+    </div>
+</div>
+{% endif %}
+<div class="jumbotron jumbotron-fluid bg-light">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-2">
+            <div class="col my-4 text-start text-md-center">
+                <h4 class="mb-4">My contact info:</h4>
+                <div class="row row-cols-2 row-cols-md-1 mb-4 mb-md-3 ms-2">
+                    <div class="col-3">
+                        <i class="icon icon-mail display-1 text-primary"></i>
+                    </div>
+                    <div class="col">
+                        <p class="mb-1 mb-md-3 position-relative top-50 start-50 translate-middle">
+                            {% for email in myinfo.emails %}
+                            {{ email }}<br>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+                <div class="row row-cols-2 row-cols-md-1 ms-2">
+                    <div class="col-3">
+                        <i class="icon icon-phone display-1 text-primary"></i>
+                    </div>
+                    <div class="col">
+                        <p class="position-relative top-50 start-50 translate-middle">{{ myinfo.phone_num }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col py-3 py-md-4">
+                <h4 class="pb-3">Send me an email:</h4>
+                <form action="{{ url_for('show_contact_info') }}" method="POST" enctype="multipart/form-data" id="emailform">
+                    <div class="form-group mb-4 justify-content-center align-items-center">
+                        <div class="form-outline">
+                            {{ form.name(class="form-control", placeholder="John Doe")|safe }}
+                            <label class="form-label" for="name">Your name</label>
+                        </div>
+                        {% if form.name.errors %}
+                        {% for error in form.name.errors %}
+                        <div class="d-flex align-items-center justify-content-center pt-2">
+                            <span class="chip w-100 chip-outline btn-outline-danger w-50 text-center text-chip">{{ error
+                                }}</span>
+                        </div>
                         {% endfor %}
-                        <dt>Phone Number</dt>
-                        <dd>
-                            {{ myinfo.phone_num }}
-                        </dd>
-                    </dl>
-                </div>
-                <div class="col py-4">
-                    <h4 class="pb-3">Send me an email:</h4>
-                    <form action="{{ url_for('show_contact_info') }}" method="POST" enctype="multipart/form-data" id="emailform">
-                        <div class="form-group mb-4 justify-content-center align-items-center">
-                            <div class="form-outline">
-                                <!-- <input type="text" class="form-control" id="InputName" name="name" placeholder="John Doe" required> -->
-                                {{ form.name(class="form-control", placeholder="John Doe")|safe }}
-                                <label class="form-label" for="name">Your name</label>
-                            </div>
-                            {% if form.name.errors %}
-                            {% for error in form.name.errors %}
-                            <div class="d-flex align-items-center justify-content-center pt-2">
-                                <span class="chip w-100 chip-outline btn-outline-danger w-50 text-center text-chip">{{ error }}</span>
-                            </div>
-                            {% endfor %}
-                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-4">
+                        <div class="form-outline">
+                            {{ form.email(class="form-control", placeholder="johndoe@email.com")|safe }}
+                            <label class="form-label" for="email">Your email</label>
                         </div>
-                        <div class="form-group mb-4">
-                            <div class="form-outline">
-                                {{ form.email(class="form-control", placeholder="johndoe@email.com")|safe }}
-                                <label class="form-label" for="email">Your email</label>
-                            </div>
-                            {% if form.email.errors %}
-                            {% for error in form.email.errors %}
-                            <div class="d-flex align-items-center justify-content-center pt-2">
-                                <span class="chip w-100 chip-outline btn-outline-danger w-50 text-center text-chip">{{ error }}</span>
-                            </div>
-                            {% endfor %}
-                            {% endif %}
+                        {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                        <div class="d-flex align-items-center justify-content-center pt-2">
+                            <span class="chip w-100 chip-outline btn-outline-danger w-50 text-center text-chip">{{ error
+                                }}</span>
                         </div>
-                        <div class="form-group mb-4 align-items-center justify-content-center">
-                            <div class="form-outline">
-                                {{ form.subject(class="form-control", placeholder="Hi, Adam")|safe }}
-                                <label class="form-label" for="subject">Subject</label>
-                            </div>
-                            {% if form.subject.errors %}
-                            {% for error in form.subject.errors %}
-                            <div class="d-flex align-items-center justify-content-center pt-2">
-                                <span class="chip w-100 chip-outline btn-outline-danger text-center text-chip">{{ error }}</span>
-                            </div>
-                            {% endfor %}
-                            {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-4 align-items-center justify-content-center">
+                        <div class="form-outline">
+                            {{ form.subject(class="form-control", placeholder="Hi, Adam")|safe }}
+                            <label class="form-label" for="subject">Subject</label>
                         </div>
-                        <div class="form-group mb-4">
-                            <div class="form-outline pb-2">
-                                {{ form.body(class="form-control")|safe }}
-                                <label class="form-label" for="body">Email body</label>
-                            </div>
-                            {% if form.body.errors %}
-                            {% for error in form.body.errors %}
-                            <div class="d-flex align-items-center justify-content-center pt-2">
-                                <span class="chip w-100 chip-outline btn-outline-danger text-center text-chip">{{ error }}</span>
-                            </div>
-                            {% endfor %}
-                            {% endif %}
+                        {% if form.subject.errors %}
+                        {% for error in form.subject.errors %}
+                        <div class="d-flex align-items-center justify-content-center pt-2">
+                            <span class="chip w-100 chip-outline btn-outline-danger text-center text-chip">{{ error
+                                }}</span>
                         </div>
-                        <input class="g-recaptcha btn btn-primary" data-sitekey="6LdOdb0eAAAAAF7K1a7MBzpSRclag1xjDrem2IAm" data-callback="onSubmit" data-action="submit" type="submit" value="Send Email">
-                    </form>
-                </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-4">
+                        <div class="form-outline pb-2">
+                            {{ form.body(class="form-control")|safe }}
+                            <label class="form-label" for="body">Email body</label>
+                        </div>
+                        {% if form.body.errors %}
+                        {% for error in form.body.errors %}
+                        <div class="d-flex align-items-center justify-content-center pt-2">
+                            <span class="chip w-100 chip-outline btn-outline-danger text-center text-chip">{{ error
+                                }}</span>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    {{ form.recaptcha_token }}
+                </form>
+                <button class="g-recaptcha btn btn-primary" onclick="onClick()">Send Email</button>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
 {% block FabMenu %}
 {{ super() }}

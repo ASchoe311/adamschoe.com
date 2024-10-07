@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 from flask_mail import Message
 from flask_admin import helpers
 import json
-from init import application, init_db, Project, mail, User, LoginForm, EmailForm
+from init import application, Project, mail, User, LoginForm, EmailForm, Skill, BlockedDomain
 # from flask_migrate import Migrate
 from flask_login import (
     login_user,
@@ -16,6 +16,16 @@ from flask_login import (
     logout_user
 )
 from PIL import Image
+import requests
+from werkzeug.middleware.proxy_fix import ProxyFix
+application.wsgi_app = ProxyFix(application.wsgi_app, x_for=1, x_host=1)
+
+# @application.before_request
+# def before_request():
+#     if not flask.request.is_secure:
+#         url = flask.request.url.replace('http://', 'https://', 1)
+#         code = 301
+#         return flask.redirect(url, code=code)
 
 login_manager = LoginManager()
 login_manager.session_protection = "strong"
@@ -31,19 +41,31 @@ num_projects = 0
 
 
 myinfo = {
-    'resume_file': 'res.pdf',
+    'resume_file': 'Resume.pdf',
     'phone_num': '914-539-5828',
     'emails': ['aschoe@umich.edu', 'adamrschoenfeld311@gmail.com']
 }
 
 
-def allowed_file(filename):
+def allowed_img_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ['png', 'jpg', 'jpeg', 'gif', 'webp']
+
+def allowed_res_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ['pdf', 'html']
 
 @application.route('/')
 def show_index():
     # print(str(Project.query.all()))
-    context = {'projects': sorted(json.loads(str(Project.query.all())), key=lambda x: x['id'], reverse=True), 'page': 'index'}
+    context = {
+        'projects': sorted(
+            json.loads(str(Project.query.all())
+        ), key=lambda x: x['id'], reverse=True),
+        'skills': json.loads(
+            str(Skill.query.all())
+        ),
+        'page': 'index'
+    }
+    # print(context)
     return flask.render_template('index.html', **context)
 
 @application.route('/login', methods=['POST'])
@@ -65,13 +87,25 @@ def logout():
 
 @application.route("/contact", methods=["GET", "POST"])
 def show_contact_info():
-    context = {'myinfo': myinfo, 'page': 'contact', 'alert_success': False}
+    context = {'myinfo': myinfo, 'page': 'contact', 'alert_success': None}
     form = EmailForm(flask.request.form)
     if flask.request.method == 'POST' and form.validate():
+        POST_params={'secret': dotenv_values('.env')['RECAPTCHA_SECRET'], 'response': form.data['recaptcha_token'], 'remoteip': flask.request.remote_addr}
+        recaptcha_resp = requests.post("https://www.google.com/recaptcha/api/siteverify", params=POST_params).json()
+        # print(recaptcha_resp.json())
+        block_list = str(BlockedDomain.query.all())
+        if form.data['email'].split("@")[1] in block_list or recaptcha_resp['score'] < 0.7:
+            context['alert_success'] = False
+            return flask.render_template('contact.html',**context, form=form)
         emailBody = f"{form.data['name']} <{form.data['email']}> says:\n\n{form.data['body']}"
         msg = Message(form.data['subject'], recipients=['aschoe@umich.edu'], body=emailBody, sender=('contactform@adamschoe.com'))
         # flask.flash(msg)
-        mail.send(msg)
+        try:
+            mail.send(msg)
+            # pass
+        except:
+            context['alert_success'] = False
+            return flask.render_template('contact.html',**context, form=form)
         context['alert_success'] = True
         form.name.data = form.email.data = form.subject.data = form.body.data = ""
     return flask.render_template('contact.html', **context, form=form)
@@ -80,8 +114,9 @@ def show_contact_info():
 @application.route('/resume')
 def show_resume():
     # iFrameUrl = f"https://docs.google.com/viewer?url=your_url_to_pdf&embedded=true"
-    return flask.render_template('resume.html', resFile=myinfo['resume_file'], page='resume')
-    # return flask.redirect(flask.url_for('show_pdf', pdf='res.pdf'))
+    # return flask.render_template('resume.html', resFile=myinfo['resume_file'], page='resume')
+    # return flask.redirect(flask.url_for('show_pdf', pdf=myinfo['resume_file']))
+    return flask.send_from_directory(application.static_folder, 'pdfs/' + myinfo['resume_file'])
 
 @application.route("/static/images/<image>", methods=["GET"])
 def show_image(image):
@@ -100,36 +135,46 @@ def show_svg(svg):
 def upload_img():
     imgFile = flask.request.files['image']
     filename = secure_filename(imgFile.filename)
-    if allowed_file(filename):
+    if allowed_img_file(filename):
+        savePath = os.path.join(application.config['IMG_UPLOAD_FOLDER'], filename)
+        imgFile.save(savePath)
+        img = Image.open(imgFile)
+        newPath = os.path.join(application.config['IMG_UPLOAD_FOLDER'], filename.split('.')[0] + '.webp')
+        img.save(newPath, format='webp')
+    return flask.redirect('/admin')
+
+# TODO: Fix this
+@application.route("/uploadprojectimg", methods=["POST"])
+@login_required
+def upload_project_img():
+    imgFile = flask.request.files['image']
+    filename = secure_filename(imgFile.filename)
+    if allowed_img_file(filename):
         savePath = os.path.join(application.config['IMG_UPLOAD_FOLDER'], filename)
         imgFile.save(savePath)
         im = Image.open(savePath)
-        resized_im = im.resize((1400, 787))
+        resized_im = im.resize((700, 394))
         newPath = os.path.join(application.config['IMG_UPLOAD_FOLDER'], filename.split('.')[0] + '.webp')
         resized_im.save(newPath, format='webp')
     return flask.redirect('/admin')
 
-@application.route("/updateresume" , methods=["GET", "POST"])
+
+@application.route("/changeresume", methods=["POST"])
 @login_required
-def change_resume():
-    if flask.request.method == 'GET':
-        return flask.render_template('changeresume.html')
-    passwordInput = flask.request.form.get('password')
-    realPass = dotenv_values('.env')['ADMIN_PASS_HASH']
-    # print(flask.request.files['image'].filename)
-    m = hashlib.sha256()
-    m.update(bytes(passwordInput, 'utf-8'))
-    hashed = m.hexdigest()
-    if hashed == realPass:
-        filename = flask.request.files['resfile'].filename
-        if '.' in filename and filename.rsplit('.', 1)[1].lower() == 'pdf':
-            flask.request.files['resfile'].save(os.path.join(application.config['PDF_UPLOAD_FOLDER'], 'res.pdf'))
-            # myinfo['resume_file'] = filename
-            return flask.render_template('addsuccess.html', redirect_url=flask.url_for('show_resume'), uploadtype='RESUME')
-        flask.abort(403)
-    else:
-        return flask.render_template_string('<h1 style="text-align: center;">Sorry, this is for my personal use only! Nice try though!</h1>')
+def upload_resume():
+    resFile = flask.request.files['pdf']
+    filename = secure_filename(resFile.filename)
+    # print(filename)
+    if allowed_res_file(filename):
+        savePath = os.path.join(application.config['PDF_UPLOAD_FOLDER'], filename)
+        resFile.save(savePath)
+        myinfo['resume_file'] = filename
+    return flask.redirect('/admin')
+
+@application.route("/robots.txt", methods=["GET"])
+def give_robots():
+    return flask.send_from_directory(application.static_folder, "robots.txt")
 
 if __name__ == '__main__':
-    init_db()
+    # init_db()
     application.run(debug=False)

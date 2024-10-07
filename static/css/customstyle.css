@@ -1,0 +1,23 @@
+.ProjectImage {
+    max-height: 15rem;
+    /* object-fit: cover; */
+}
+
+.devicon {
+    font-size: 36px; 
+    color: #FFF;
+}
+
+.skillicon {
+    font-size: 36px;
+    position: relative;
+    top: 3px; 
+    color: #FFF;
+    filter: brightness(0) saturate(100%) invert(100%) sepia(4%) saturate(64%) hue-rotate(235deg) brightness(112%) contrast(100%);
+}
+
+.fabmenu-icon {
+    font-size: 22px; 
+    position: relative;
+    top: 25%;
+}

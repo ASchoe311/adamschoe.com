@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/customstyle.css')}}" type="text/css">
        
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
@@ -18,11 +18,35 @@
     </noscript>
 
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('show_image', image='apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('show_image', image='/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('show_image', image='/favicon-16x16.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('show_image', image='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('show_image', image='favicon-16x16.png') }}">
     <link rel="manifest" href="{{url_for('static', filename='site.webmanifest')}}">
 
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kelly+Slab&display=swap" rel="stylesheet">
+
+    <!-- Search Engine -->
+    <meta name="description" content="I am a dedicated and ambitious software engineer with full-stack development talents. I am highly experienced with Python, C++, and JavaScript, and have....">
+    <meta name="image" content="{{url_for('show_image', image='adamschoenfeld.webp')}}">
+    <!-- Schema.org for Google -->
+    <meta itemprop="name" content="Adam Schoenfeld">
+    <meta itemprop="description" content="I am a dedicated and ambitious software engineer with full-stack development talents. I am highly experienced with Python, C++, and JavaScript, and have....">
+    <meta itemprop="image" content="{{url_for('show_image', image='adamschoenfeld.webp')}}">
+    <!-- Open Graph general (Facebook, Pinterest & LinkedIn) -->
+    <meta property="og:title" content="Adam Schoenfeld">
+    <meta property="og:description" content="I am a dedicated and ambitious software engineer with full-stack...">
+    <meta property="og:image" content="{{url_for('show_image', image='adamschoenfeld.webp')}}">
+    <meta property="og:url" content="https://adamschoe.com/">
+    <meta property="og:site_name" content="Adam Schoenfeld">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:title" content="Adam Schoenfeld">
+    <meta property="twitter:description" content="I am a dedicated and ambitious software engineer with full-stack development talents. I am highly experienced with...">
+    <meta property="twitter:image:src" content="{{url_for('show_image', image='adamschoenfeld.webp')}}">
+    <link rel="stylesheet" href="https://i.icomoon.io/public/temp/812cab3515/UntitledProject/style.css">
     {% endblock %}
 </head>
 
@@ -31,35 +55,35 @@
     <header class="site-header py-1 d-none d-md-block sticky-top">
         <nav class="navbar navbar-expand-md navbar-light bg-light">
             <div class="container-fluid justify-content-center">
-            <ul class="navbar-nav mb-2 mb-lg-0">
-                <li class="nav-item">
-                    {% if page == 'index' %}
-                    <a class="nav-link active" aria-current="page" href="{{ url_for('show_index') }}">| Home |</a>
-                    {% else %}
-                    <a class="nav-link" href="{{ url_for('show_index') }}">Home</a>
-                    {% endif %}
-                </li>
-                <li class="nav-item">
-                    {% if page == 'contact' %}
-                    <a class="nav-link active" aria-current="page" href="{{ url_for('show_contact_info') }}">| Contact |</a>
-                    {% else %}
-                    <a class="nav-link" href="{{ url_for('show_contact_info') }}">Contact</a>
-                    {% endif %}
-                </li>
-                <li class="nav-item">
-                    {% if page == 'resume' %}
-                    <a class="nav-link active" target="_blank" aria-current="page" href="{{ url_for('show_pdf', pdf='res.pdf') }}">Resume</a>
-                    {% else %}
-                    <a class="nav-link" target="_blank" href="{{ url_for('show_pdf', pdf='res.pdf') }}">Resume</a>
-                    {% endif %}
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://github.com/ASchoe311" target="_blank">My GitHub</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://www.linkedin.com/in/adam-schoenfeld-020133187/" target="_blank">My LinkedIn</a>
-                </li>
-            </ul>
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        {% if page == 'index' %}
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('show_index') }}">| Home |</a>
+                        {% else %}
+                        <a class="nav-link" href="{{ url_for('show_index') }}">Home</a>
+                        {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        {% if page == 'contact' %}
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('show_contact_info') }}">| Contact |</a>
+                        {% else %}
+                        <a class="nav-link" href="{{ url_for('show_contact_info') }}">Contact</a>
+                        {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        {% if page == 'resume' %}
+                        <a class="nav-link active" target="_blank" aria-current="page" href="{{ url_for('show_resume') }}">Resume</a>
+                        {% else %}
+                        <a class="nav-link" target="_blank" href="{{ url_for('show_resume') }}">Resume</a>
+                        {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/ASchoe311" target="_blank">My GitHub</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.linkedin.com/in/adam-schoenfeld-020133187/" target="_blank">My LinkedIn</a>
+                    </li>
+                </ul>
             </div>
         </nav>
     </header>
@@ -68,34 +92,34 @@
     {% block body %}{% endblock %}
     <!-- </div> -->
     {% block FabMenu %}
-    <div class="fixed-action-btn d-md-none" id="fixed1">
+    <div class="fixed-action-btn d-md-none fabmenu" id="fixed1">
         <a class="btn btn-floating btn-primary btn-lg" style="background-color: #f44336;">
-            <i class="fas fa-bars"></i>
+            <i class="icon icon-menu fabmenu-icon"></i>
         </a>
         <ul class="list-unstyled">
             <li>
                 <a class="btn btn-primary btn-floating btn-lg" href="https://www.linkedin.com/in/adam-schoenfeld-020133187/" target="_blank">
-                    <i class="fab fa-linkedin-in"></i>
+                    <i class="icon icon-linkedin fabmenu-icon"></i>
                 </a>
             </li>
             <li>
                 <a class="btn btn-dark btn-floating btn-lg" href="https://github.com/ASchoe311" target="_blank">
-                    <i class="fab fa-github"></i>
+                    <i class="icon icon-github fabmenu-icon"></i>
                 </a>
             </li>
             <li>
-              <a class="btn btn-primary btn-floating btn-lg" href="{{ url_for('show_pdf', pdf='res.pdf') }}" target="_blank" style="background-color: #4caf50;">
-                  <i class="fas fa-file-pdf"></i>
+              <a class="btn btn-primary btn-floating btn-lg" href="{{ url_for('show_resume') }}" target="_blank" style="background-color: #dd4b39">
+                  <i class="icon icon-pdf fabmenu-icon"></i>
               </a>
             </li>
             <li>
                 <a class="btn btn-primary btn-floating btn-lg" href="{{ url_for('show_contact_info') }}" style="background-color: #2196f3;">
-                    <i class="fas fa-address-card"></i>
+                    <i class="icon icon-contact fabmenu-icon"></i>
                 </a>
               </li>
             <li>
                 <a class="btn btn-primary btn-floating btn-lg" href="{{ url_for('show_index') }}" style="background-color: #4caf50;">
-                    <i class="fas fa-home"></i>
+                    <i class="icon icon-home fabmenu-icon"></i>
                 </a>
             </li>
         </ul>
@@ -103,23 +127,15 @@
     {% endblock %}
     {% block footer %}
     <footer class="bg-light text-center text-lg-start pt-3">
-        <div class="container p-4 pb-0">
-            <!-- Section: CTA -->
-            <section class="">
-              <p class="d-flex justify-content-center align-items-center">
-                <span class="me-3">Site created using Flask with Jinja2 templates and hosted on AWS Elastic Beanstalk</span>
-                <a class="btn btn-dark btn-lg  hover-overlay ripple ripple-surface-light" href="https://github.com/ASchoe311/adamschoe.com" target="_blank">
-                    <i class="fab fa-github fa-lg px-1"></i>
-                    Source Code
-                </a>
-              </p>
-            </section>
-            <!-- Section: CTA -->
-        </div>
         <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-          © 2022 Copyright:
-          <a class="text-dark" href="http://adamschoe.com/">AdamSchoe.com</a>
+        <div class="text-center p-3 lh-base" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2022 Copyright:
+            <a class="text-dark" href="http://adamschoe.com/">AdamSchoe.com</a><br>
+            Site created using Flask with Jinja2 templates and hosted on AWS Elastic Beanstalk<br>
+            <a class="btn btn-dark btn-lg  hover-overlay ripple ripple-surface-light mt-1" href="https://github.com/ASchoe311/adamschoe.com" target="_blank">
+                <i class="icon icon-github me-1" style="position: relative; top: 1px; font-size: 16px;"></i>
+                Source Code
+            </a>
         </div>
         <!-- Copyright -->
     </footer>
@@ -137,21 +153,6 @@
 
     <!-- MDB -->
     <script async type="text/javascript" src="{{url_for('static', filename='js/mdb.custom.min.js')}}"></script>
-    <!-- <script
-      async
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"
-    ></script> -->
-
-    <!-- jQuery -->
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
-    
-    <!-- Popper -->
-    <!-- <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
-    <!-- <script async src="https://unpkg.com/@popperjs/core@2"></script> -->
-
-    <!-- Font Awesome -->
-    <script defer src="https://kit.fontawesome.com/c17db30e29.js" crossorigin="anonymous" type="text/javascript"></script>
     {% endblock %}
     
 </body>

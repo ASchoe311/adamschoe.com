@@ -3,27 +3,6 @@
 {{ super() }}
 <title>Adam Schoenfeld</title>
 
-<!-- Search Engine -->
-<meta name="description" content="I am a dedicated and ambitious software engineer with full-stack development talents. I am highly experienced with Python, C++, and JavaScript, and have....">
-<meta name="image" content="https://adamschoe.com/static/images/adamschoenfeld.png">
-<!-- Schema.org for Google -->
-<meta itemprop="name" content="Adam Schoenfeld">
-<meta itemprop="description" content="I am a dedicated and ambitious software engineer with full-stack development talents. I am highly experienced with Python, C++, and JavaScript, and have....">
-<meta itemprop="image" content="https://adamschoe.com/static/images/adamschoenfeld.png">
-<!-- Open Graph general (Facebook, Pinterest & LinkedIn) -->
-<meta property="og:title" content="Adam Schoenfeld">
-<meta property="og:description" content="I am a dedicated and ambitious software engineer with full-stack...">
-<meta property="og:image" content="https://adamschoe.com/static/images/adamschoenfeld.png">
-<meta property="og:url" content="https://adamschoe.com/">
-<meta property="og:site_name" content="Adam Schoenfeld">
-<meta property="og:locale" content="en_US">
-<meta property="og:type" content="website">
-<!-- Twitter -->
-<meta property="twitter:card" content="summary">
-<meta property="twitter:title" content="Adam Schoenfeld">
-<meta property="twitter:description" content="I am a dedicated and ambitious software engineer with full-stack development talents. I am highly experienced with...">
-<meta property="twitter:image:src" content="https://adamschoe.com/static/images/adamschoenfeld.png">
-
 <script type="application/ld+json">
     {
      "@context": "https://schema.org",
@@ -43,153 +22,85 @@
      "name": "Home"
     }
 </script>
-<link rel="preload" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.14.0/devicon.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.14.0/devicon.min.css">
-</noscript>
+
+
+<link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 {% endblock %}
 {% block header %}
 {{ super() }}
 {% endblock %}
 {% block body %}
-    <div class="container col-xxl-8 px-4 pt-md-5 pt-sm-2">
-        <div itemscope itemtype="http://schema.org/Person" class="row flex-lg-row align-items-center g-5 py-5">
+    <div class="container col-xxl-8 px-4 mt-4 mt-sm-5">
+        <div itemscope itemtype="http://schema.org/Person" class="row flex-lg-row align-items-center g-5">
           <meta itemprop="gender" content="Male">
           <meta itemprop="birthDate" content="May 25, 1999">
           <meta itemprop="jobTitle" content="Software Engineer">
           <meta itemprop="email" content="aschoe@umich.edu">
           <meta itemprop="url" content="https://www.adamschoe.com">
           <div class="col-10 col-sm-8 col-lg-6">
-            <img itemprop="image" src="{{url_for('show_image', image='adamschoenfeld.webp')}}" class="d-block mx-lg-auto img-fluid" alt="A photo of Adam Schoenfeld" width="432" height="432">
+            <img itemprop="image" src="{{url_for('show_image', image='adamschoenfeld.webp')}}" class="d-block mx-lg-auto img-fluid" alt="A photo of Adam Schoenfeld">
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-6 mt-3 mt-md-5">
             <h6>Hi, my name is</h6>
-            <h1 itemprop="name" class="display-5 fw-bold lh-1 mb-3 mx-sm-2">Adam Schoenfeld</h1>
+            <h1 itemprop="name" class="display-4 fw-bold lh-1 mb-3 mx-sm-2">Adam Schoenfeld</h1>
             <p itemprop="description" class="lead">
                 I am a dedicated and ambitious software engineer with <strong style="color: #000; font-weight: bold;">full-stack development talents</strong>. I am highly experienced with Python, C++, and JavaScript, and have developed a unique and varied portfolio of applications. I am currently open to job offers for any software engineering positions, and look forward to hearing from you soon!
             </p>
             <div class="d-grid gap-4 d-md-flex justify-content-md-start">
-              <a itemprop="sameAs" href="https://github.com/ASchoe311" target="_blank" class="btn btn-outline-primary btn-lg px-4 me-md-2 mr-1">My GitHub</a>
+              <a itemprop="sameAs" href="https://github.com/ASchoe311" target="_blank" class="btn btn-outline-primary btn-lg px-4 me-md-2 me-1">My GitHub</a>
               <a itemprop="sameAs" href="https://www.linkedin.com/in/adam-schoenfeld-020133187/" target="_blank" class="btn btn-outline-primary btn-lg px-4">My LinkedIn</a>
             </div>
           </div>
         </div>
     </div>
-<div class="container">
-    <div class="my-5 pb-5 text-center justify-content-center">
-            <h2 class="fw-bold mb-4 text-primary">Skills</h2>
-            <p class="text-muted mb-5">Highlights of the languages, frameworks, and tools I have gained experience with.</p>
-
-            <!-- <div class="d-flex">
-            <div class="text-center" style="max-width: 700px">
-            </div> 
-        </div> -->
-        <div class="row row-cols-3 row-cols-lg-6">
-            <div class="col">
-                <div class="p-3 bg-primary rounded shadow-2-strong d-inline-block mb-4">
-                    <i class="devicon-python-plain devicon"></i>
+    <div class="container my-4 my-md-5 py-3">
+        <div class="text-center justify-content-center">
+            <h2 class="fw-bold text-primary display-7">Skills</h2>
+            <p class="text-muted mb-4 mb-md-5">Highlights of the languages, frameworks, and tools I have gained experience with.</p>
+            <div class="mb-md-4">
+                <div class="row row-cols-3 row-cols-md-6">
+                    {% if skills|length > 0 %}
+                    {% for i in range(6) %}
+                    <div class="col">
+                        <div class="p-3 bg-primary rounded shadow-2-strong d-inline-block mb-4">
+                            <i class="devicon-{{ skills[i].icon }} skillicon"></i>
+                        </div>
+                        <h5 class="fw-bold mb-4">{{ skills[i].name }}</h5>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
                 </div>
-                <h5 class="fw-bold mb-4">Python</h5>
+                <div class="collapse row row-cols-3 row-cols-md-6 justify-content-center" id="skillCollapse">
+                    {% if skills|length > 6 %}
+                    {% for i in range(6, skills|length) %}
+                    <div class="col">
+                        <div class="p-3 bg-primary rounded shadow-2-strong d-inline-block mb-4">
+                            <i class="devicon-{{ skills[i].icon }} skillicon"></i>
+                        </div>
+                        <h5 class="fw-bold mb-4">{{ skills[i].name }}</h5>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
             </div>
-            <div class="col">
-                <div class="p-3 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
-                    <i class="devicon-cplusplus-line devicon"></i>
-                </div>
-                <h5 class="fw-bold mb-4">C++</h5>
-            </div>
-            <div class="col">
-                <div class="p-3 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
-                    <i class="devicon-javascript-plain devicon"></i>
-                </div>
-                <h5 class="fw-bold mb-4">JavaScript</h5>
-            </div>
-            <div class="col">
-                <div class="p-3 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
-                    <i class="devicon-java-plain devicon"></i>
-                </div>
-                <h5 class="fw-bold mb-4">Java</h5>
-            </div>
-            <div class="col">
-                <div class="p-3 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
-                    <i class="devicon-git-plain devicon"></i>
-                </div>
-                <h5 class="fw-bold mb-4">Git/SVN</h5>
-            </div>
-            <div class="col">
-                <div class="p-3 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
-                    <i class="devicon-amazonwebservices-original devicon"></i>
-                </div>
-                <h5 class="fw-bold mb-4">AWS</h5>
-            </div>            
+            <button
+                class="btn btn-primary"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#skillCollapse"
+                aria-expanded="true"
+                aria-controls="skillCollapse"
+                id="skill-collapse-btn"
+            >
+                View More
+            </button>
         </div>
-        <div class="collapse row row-cols-3 row-cols-lg-6 justify-content-center" id="skillCollapse">
-            <div class="col">
-                <div class="p-3 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
-                    <i class="devicon-html5-plain devicon"></i>
-                </div>
-                <h5 class="fw-bold mb-4">HTML5</h5>
-            </div>
-            <div class="col">
-                <div class="p-3 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
-                    <i class="devicon-css3-plain devicon"></i>
-                </div>
-                <h5 class="fw-bold mb-4">CSS3</h5>
-            </div>
-            <div class="col">
-                <div class="p-3 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
-                    <i class="devicon-react-original devicon"></i>
-                </div>
-                <h5 class="fw-bold mb-4">React</h5>
-            </div>
-            <div class="col">
-                <div class="p-3 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4" style="width:68px;height:73.59px;">
-                    <img src="{{url_for('show_svg', svg='pytorch.svg')}}"></i>
-                </div>
-                <h5 class="fw-bold mb-4">PyTorch</h5>
-            </div>
-            <div class="col">
-                <div class="p-3 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
-                    <i class="devicon-flask-original devicon"></i>
-                </div>
-                <h5 class="fw-bold mb-4">Flask</h5>
-            </div>
-            <div class="col">
-                <div class="p-3 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
-                    <i class="devicon-docker-plain devicon"></i>
-                </div>
-                <h5 class="fw-bold mb-4">Docker</h5>
-            </div>
-            <div class="col">
-                <div class="p-3 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
-                    <i class="devicon-linux-plain devicon"></i>
-                </div>
-                <h5 class="fw-bold mb-4">Linux</h5>
-            </div>
-            <div class="col">
-                <div class="p-3 bg-primary rounded-4 shadow-2-strong d-inline-block mb-4">
-                    <i class="devicon-nodejs-plain devicon"></i>
-                </div>
-                <h5 class="fw-bold mb-4">NodeJS</h5>
-            </div>
-        </div>
-        <button
-        class="btn btn-primary"
-        type="button"
-        data-mdb-toggle="collapse"
-        data-mdb-target="#skillCollapse"
-        aria-expanded="true"
-        aria-controls="skillCollapse"
-        id="skill-collapse-btn"
-        >
-        View More
-        </button>
     </div>
-</div>
-    <div id="ProjectCards" class="container">
-        <h2 class="fw-bold mb-4 text-center text-primary">Projects</h2>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-center">
+    <div id="ProjectCards" class="container-fluid">
+        <h2 class="fw-bold mb-4 text-center text-primary display-7">Projects</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-left ms-4 me-4">
             {% for project in projects %}
-            <div class="col py-3">
+            <div class="col pb-3">
                 <div itemscope itemtype="https://schema.org/SoftwareApplication" class="ProjectCard card h-100 shadow-3-strong">
                     <div itemprop="maintainer" itemscope itemtype="https://schema.org/person">
                         <meta itemprop="name" content="Adam Schoenfeld">
@@ -200,14 +111,19 @@
                         <meta itemprop="priceCurrency" content="USD">
                         <meta itemprop="price" content="0.00">
                     </div>
-                    <div class="bg-image shadow-4-strong rounded mx-3">
-                        <img src="{{url_for('show_image', image=project.image)}}" itemprop="thumbnailUrl" class="img-fluid" alt="Thumbnail for {{ project.title }}" loading="lazy" width="334" height="187.750">
+                    <meta itemprop="applicationCategory" content="DeveloperApplication">
+                    <div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+                        <meta itemprop="ratingValue" content="5.0">
+                        <meta itemprop="ratingCount" content="1">
+                    </div>
+                    <div class="bg-image shadow-4-strong rounded mx-auto">
+                        <img src="{{url_for('show_image', image=project.image)}}" itemprop="thumbnailUrl" class="img-fluid" alt="Thumbnail for {{ project.title }}" loading="lazy">
                     </div>
                     <div class="card-body">
                         {% if project.is_wip %}
-                        <span itemprop="creativeWorkStatus" class="badge rounded-pill bg-warning font-weight-bold text-white float-end mt-1" data-mdb-toggle="tooltip" title="This project is a Work-In-Progress">WIP</span>
+                        <span itemprop="creativeWorkStatus" class="badge rounded-pill bg-warning font-weight-bold text-white float-end mt-1" data-mdb-toggle="tooltip" title="Development is ongoing">WIP</span>
                         {% else %}
-                        <span itemprop="creativeWorkStatus" class="badge rounded-pill bg-success font-weight-bold text-white float-end mt-1" data-mdb-toggle="tooltip" title="This project is Completed">Completed</span>
+                        <span itemprop="creativeWorkStatus" class="badge rounded-pill bg-success font-weight-bold text-white float-end mt-1" data-mdb-toggle="tooltip" title="Development is completed">Completed</span>
                         {% endif %}
                         {% for lang in project.languages %}
                         <span class="badge rounded-pill bg-info font-weight-bold text-white" data-mdb-toggle="tooltip" title="Written using {{ lang }}">{{ lang }}</span>
@@ -215,8 +131,8 @@
                             <i class="fab fa-{{ lang }} fa-lg text-capitalize" data-mdb-toggle="tooltip" title="Written using {{ lang }}"></i>
                         </span> -->
                         {% endfor %}
-                        <a href="{{ project.github_url }}" class="ProjectLink card-title mx-2 text-decoration-none text-body">
-                            <h3 itemprop="name" class="text-center pt-3">{{ project.title }}</h3>
+                        <a href="{{ project.github_url }}" class="ProjectLink card-title mx-2 text-decoration-none text-body" target="_blank">
+                            <h3 itemprop="name" class="text-center mt-3">{{ project.title }}</h3>
                         </a>
                         <p itemprop="description" class="ProjectDescription card-text">{{ project.description }}</p>
                         {% if project.extras %}
@@ -226,8 +142,8 @@
                         {% endif %}
                     </div>
                     <div class="card-footer text-center">
-                        <a href="{{ project.github_url }}" itemprop="url" class="btn btn-primary hover-overlay ripple ripple-surface-light" target="_blank">
-                            <i class="fab fa-github fa-lg px-1"></i>
+                        <a href="{{ project.github_url }}" itemprop="url" class="btn btn-primary hover-overlay ripple ripple-surface-light" target="_blank" role="button">
+                            <i class="icon icon-github me-1" style="position: relative; top: 1px; font-size: 15px;"></i>
                             View on Github
                         </a>
                     </div>

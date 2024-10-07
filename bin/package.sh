@@ -10,24 +10,26 @@ if [ -d ".ebextensions" ]
 then
     zip -r application.zip \
         bin \
-        sql \
         static \
         templates \
         .env \
         application.py \
-        config.py \
+        init.py \
         Procfile \
         requirements.txt \
-        .ebextensions
+        .ebextensions \
+        .platform \
+        public
 else
     zip -r application.zip \
         bin \
-        sql \
         static \
         templates \
         .env \
         application.py \
-        config.py \
+        init.py \
         Procfile \
-        requirements.txt
+        requirements.txt \
+        .platform \
+        public
 fi

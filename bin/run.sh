@@ -24,6 +24,11 @@ case $1 in
     sed -i 's/application.run(debug=True)/application.run(debug=False)/' application.py
     uwsgi --http :8000 --wsgi-file application.py --master --processes 4 --threads 2
     ;;
+  "debug")
+    export FLASK_ENV=development
+    sed -i 's/application.run(debug=False)/application.run(debug=True)/' application.py
+    flask --debug run
+    ;;
   *)
     usage
     exit 1
