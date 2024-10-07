@@ -14,29 +14,29 @@ fi
 # Parse argument.  $1 is the first argument
 case $1 in
   "create")
-	  FILE=sql/db.sqlite3
+	  FILE=sql/db.sqlite
 	  if test -f "$FILE"; then
 	  	echo "Error: database already exists"
 	  else
-	  	sqlite3 sql/db.sqlite3 < sql/schema.sql
-	  	sqlite3 sql/db.sqlite3 < sql/data.sql
+	  	sqlite3 sql/db.sqlite < sql/schema.sql
+	  	sqlite3 sql/db.sqlite < sql/data.sql
     fi
 	;;
   "destroy")
-    rm -rf sql/db.sqlite3
+    rm -rf sql/db.sqlite
     ;;
   "reset")
-    rm -rf sql/db.sqlite3
-	  sqlite3 sql/db.sqlite3 < sql/schema.sql
-	  sqlite3 sql/db.sqlite3 < sql/data.sql
+    rm -rf sql/db.sqlite
+	  sqlite3 sql/db.sqlite < sql/schema.sql
+	  sqlite3 sql/db.sqlite < sql/data.sql
     ;;
   "dump")
-	  tablesStr=$(<. sqlite3 sql/db.sqlite3 '.tables')
+	  tablesStr=$(<. sqlite3 sql/db.sqlite '.tables')
 	  IFS='\' read -r -a tables <<< "$tablesStr"
 	  # echo ${tables[@]}
     for table in ${tables}
 	  do
-	  	sqlite3 -batch -line sql/db.sqlite3 "SELECT * FROM $table"
+	  	sqlite3 -batch -line sql/db.sqlite "SELECT * FROM $table"
 	  	echo
 	  done
     ;;

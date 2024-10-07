@@ -23,8 +23,6 @@
     }
 </script>
 
-
-<link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 {% endblock %}
 {% block header %}
 {{ super() }}
@@ -37,7 +35,7 @@
           <meta itemprop="jobTitle" content="Software Engineer">
           <meta itemprop="email" content="aschoe@umich.edu">
           <meta itemprop="url" content="https://www.adamschoe.com">
-          <div class="col-10 col-sm-8 col-lg-6">
+          <div class="col-10 col-sm-8 col-lg-6 mx-auto">
             <img itemprop="image" src="{{url_for('show_image', image='adamschoenfeld.webp')}}" class="d-block mx-lg-auto img-fluid" alt="A photo of Adam Schoenfeld">
           </div>
           <div class="col-lg-6 mt-3 mt-md-5">
@@ -98,7 +96,7 @@
     </div>
     <div id="ProjectCards" class="container-fluid">
         <h2 class="fw-bold mb-4 text-center text-primary display-7">Projects</h2>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-left ms-4 me-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-left ms-md-2 me-md-2 ms-lg-4 ms-lg-4">
             {% for project in projects %}
             <div class="col pb-3">
                 <div itemscope itemtype="https://schema.org/SoftwareApplication" class="ProjectCard card h-100 shadow-3-strong">
@@ -143,7 +141,7 @@
                     </div>
                     <div class="card-footer text-center">
                         <a href="{{ project.github_url }}" itemprop="url" class="btn btn-primary hover-overlay ripple ripple-surface-light" target="_blank" role="button">
-                            <i class="icon icon-github me-1" style="position: relative; top: 1px; font-size: 15px;"></i>
+                            <i class="fa-brands fa-github me-1" style="position: relative; top: 1px; font-size: 15px;"></i>
                             View on Github
                         </a>
                     </div>

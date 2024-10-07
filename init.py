@@ -19,8 +19,6 @@ application.config.update(
     APPLICATION_ROOT='/',
     SECRET_KEY=bytes(dotenv_values('.env')['FLASK_SECRET_KEY'], 'utf-8'),
     SITE_ROOT=SITE_ROOT,
-    IMAGES_FOLDER=SITE_ROOT/'static'/'images',
-    PDF_FOLDER=SITE_ROOT/'static'/'pdfs',
     MAX_CONTENT_LENGTH=16 * 1024 * 1024,
     IMG_UPLOAD_FOLDER=SITE_ROOT/'static'/'images',
     PDF_UPLOAD_FOLDER=SITE_ROOT/'static'/'pdfs',
@@ -31,7 +29,7 @@ application.config.update(
     MAIL_USERNAME=dotenv_values('.env')['SES_USERNAME'],
     MAIL_PASSWORD=dotenv_values('.env')['SES_PASSWORD'],
     MAIL_DEBUG=False,
-    SQLALCHEMY_DATABASE_URI='sqlite:///../sql/db.sqlite',
+    SQLALCHEMY_DATABASE_URI='sqlite:///./sql/db.sqlite',
     SQLALCHEMY_TRACK_MODIFICATIONS=False
 )
 

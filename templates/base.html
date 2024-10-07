@@ -8,6 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="{{url_for('static', filename='css/customstyle.css')}}" type="text/css">
+
+    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+    <!-- Font Awesome -->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    rel="stylesheet"
+    />
        
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
@@ -46,7 +53,6 @@
     <meta property="twitter:title" content="Adam Schoenfeld">
     <meta property="twitter:description" content="I am a dedicated and ambitious software engineer with full-stack development talents. I am highly experienced with...">
     <meta property="twitter:image:src" content="{{url_for('show_image', image='adamschoenfeld.webp')}}">
-    <link rel="stylesheet" href="https://i.icomoon.io/public/temp/812cab3515/UntitledProject/style.css">
     {% endblock %}
 </head>
 
@@ -94,32 +100,32 @@
     {% block FabMenu %}
     <div class="fixed-action-btn d-md-none fabmenu" id="fixed1">
         <a class="btn btn-floating btn-primary btn-lg" style="background-color: #f44336;">
-            <i class="icon icon-menu fabmenu-icon"></i>
+            <i class="fas fa-bars fabmenu-icon"></i>
         </a>
         <ul class="list-unstyled">
             <li>
                 <a class="btn btn-primary btn-floating btn-lg" href="https://www.linkedin.com/in/adam-schoenfeld-020133187/" target="_blank">
-                    <i class="icon icon-linkedin fabmenu-icon"></i>
+                    <i class="fab fa-linkedin fabmenu-icon"></i>
                 </a>
             </li>
             <li>
                 <a class="btn btn-dark btn-floating btn-lg" href="https://github.com/ASchoe311" target="_blank">
-                    <i class="icon icon-github fabmenu-icon"></i>
+                    <i class="fab fa-github fabmenu-icon"></i>
                 </a>
             </li>
             <li>
               <a class="btn btn-primary btn-floating btn-lg" href="{{ url_for('show_resume') }}" target="_blank" style="background-color: #dd4b39">
-                  <i class="icon icon-pdf fabmenu-icon"></i>
+                <i class="fas fa-file-pdf fabmenu-icon"></i>
               </a>
             </li>
             <li>
                 <a class="btn btn-primary btn-floating btn-lg" href="{{ url_for('show_contact_info') }}" style="background-color: #2196f3;">
-                    <i class="icon icon-contact fabmenu-icon"></i>
+                    <i class="fas fa-address-card fabmenu-icon"></i>
                 </a>
               </li>
             <li>
                 <a class="btn btn-primary btn-floating btn-lg" href="{{ url_for('show_index') }}" style="background-color: #4caf50;">
-                    <i class="icon icon-home fabmenu-icon"></i>
+                    <i class="fas fa-house fabmenu-icon"></i>
                 </a>
             </li>
         </ul>
@@ -133,7 +139,7 @@
             <a class="text-dark" href="http://adamschoe.com/">AdamSchoe.com</a><br>
             Site created using Flask with Jinja2 templates and hosted on AWS Elastic Beanstalk<br>
             <a class="btn btn-dark btn-lg  hover-overlay ripple ripple-surface-light mt-1" href="https://github.com/ASchoe311/adamschoe.com" target="_blank">
-                <i class="icon icon-github me-1" style="position: relative; top: 1px; font-size: 16px;"></i>
+                <i class="fa-brands fa-github me-1" style="position: relative; top: 1px; font-size: 16px;"></i>
                 Source Code
             </a>
         </div>

@@ -13,6 +13,8 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 # Parse argument.  $1 is the first argument
+sed -i "s/sqlite:\/\/\/..\/sql\/db.sqlite/sqlite:\/\/\/.\/sql\/db.sqlite/" init.py
+sed -i -e "s/\.\./static/" init.py
 case $1 in
   "dev")
     export FLASK_ENV=development
@@ -23,11 +25,6 @@ case $1 in
     export FLASK_ENV=production
     sed -i 's/application.run(debug=True)/application.run(debug=False)/' application.py
     uwsgi --http :8000 --wsgi-file application.py --master --processes 4 --threads 2
-    ;;
-  "debug")
-    export FLASK_ENV=development
-    sed -i 's/application.run(debug=False)/application.run(debug=True)/' application.py
-    flask --debug run
     ;;
   *)
     usage

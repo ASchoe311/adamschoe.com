@@ -6,6 +6,10 @@ then
     rm application.zip
 fi
 
+sed -i 's/application.run(debug=True)/application.run(debug=False)/' application.py
+sed -i "s/sqlite:\/\/\/.\/sql\/db.sqlite/sqlite:\/\/\/..\/sql\/db.sqlite/" init.py
+sed -i -e "s/static/\.\./" init.py
+
 if [ -d ".ebextensions" ]
 then
     zip -r application.zip \

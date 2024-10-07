@@ -116,19 +116,19 @@ def show_resume():
     # iFrameUrl = f"https://docs.google.com/viewer?url=your_url_to_pdf&embedded=true"
     # return flask.render_template('resume.html', resFile=myinfo['resume_file'], page='resume')
     # return flask.redirect(flask.url_for('show_pdf', pdf=myinfo['resume_file']))
-    return flask.send_from_directory(application.static_folder, 'pdfs/' + myinfo['resume_file'])
+    return flask.send_from_directory(application.config["PDF_UPLOAD_FOLDER"], myinfo['resume_file'])
 
 @application.route("/static/images/<image>", methods=["GET"])
 def show_image(image):
-    return flask.send_from_directory(application.static_folder, 'images/' + image)
+    return flask.send_from_directory(str(application.config["IMG_UPLOAD_FOLDER"]), image)
 
 @application.route("/static/pdfs/<pdf>", methods=["GET"])
 def show_pdf(pdf):
-    return flask.send_from_directory(application.static_folder, 'pdfs/' + pdf)
+    return flask.send_from_directory(str(application.config["PDF_UPLOAD_FOLDER"]), pdf)
 
-@application.route("/static/images/<svg>", methods=["GET"])
-def show_svg(svg):
-    return flask.send_from_directory(application.static_folder, 'images/' + svg)
+# @application.route("/static/images/<svg>", methods=["GET"])
+# def show_svg(svg):
+#     return flask.send_from_directory(application.static_folder, 'images/' + svg)
 
 @application.route("/uploadimg", methods=["POST"])
 @login_required
@@ -177,4 +177,4 @@ def give_robots():
 
 if __name__ == '__main__':
     # init_db()
-    application.run(debug=False)
+    application.run(debug=True)
