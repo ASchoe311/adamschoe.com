@@ -118,11 +118,11 @@ def show_resume():
     # return flask.redirect(flask.url_for('show_pdf', pdf=myinfo['resume_file']))
     return flask.send_from_directory(application.config["PDF_UPLOAD_FOLDER"], myinfo['resume_file'])
 
-@application.route("/static/images/<image>", methods=["GET"])
+@application.route("/images/<image>", methods=["GET"])
 def show_image(image):
     return flask.send_from_directory(str(application.config["IMG_UPLOAD_FOLDER"]), image)
 
-@application.route("/static/pdfs/<pdf>", methods=["GET"])
+@application.route("/pdfs/<pdf>", methods=["GET"])
 def show_pdf(pdf):
     return flask.send_from_directory(str(application.config["PDF_UPLOAD_FOLDER"]), pdf)
 
@@ -174,6 +174,15 @@ def upload_resume():
 @application.route("/robots.txt", methods=["GET"])
 def give_robots():
     return flask.send_from_directory(application.static_folder, "robots.txt")
+
+@application.route("/sitemap.xml", methods=["GET"])
+def give_sitemap():
+    return flask.send_from_directory(application.static_folder, "sitemap.xml")
+
+@application.route("/staticimage/<image>", methods=["GET"])
+def static_image(image):
+    return flask.send_from_directory(application.static_folder, "images/" + image)
+
 
 if __name__ == '__main__':
     # init_db()
