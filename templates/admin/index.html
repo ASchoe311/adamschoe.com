@@ -34,6 +34,9 @@
         </div>
         <button type="submit">Change Personal Description</button>
     </form>
+    <form action="{{ url_for('update_commits') }}" method="GET">
+        <button type="submit">Manually Update Commit Times</button>
+    </form>
     {% else %}
     <form action="{{ url_for('login') }}" method="POST" enctype="multipart/form-data" id="loginform">
         {{ form.login }}<br>

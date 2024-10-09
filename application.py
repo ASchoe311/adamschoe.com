@@ -1,6 +1,7 @@
 import os
 import flask
 import hashlib
+import subprocess
 from dotenv import dotenv_values
 from werkzeug.utils import secure_filename
 from flask_mail import Message
@@ -51,14 +52,14 @@ def allowed_res_file(filename):
 
 @application.route('/')
 def show_index():
-    print(str(Project.query.all()))
+    # print(str(Project.query.all()))
     context = {
         'projects': sorted(
             json.loads(str(Project.query.all())
         ), key=lambda x: datetime.datetime.strptime(x['lastupdate'][1:-1], '%Y-%m-%dT%H:%M:%SZ'), reverse=True),
-        'skills': json.loads(
-            str(Skill.query.all())
-        ),
+        'skills': sorted(
+            json.loads(str(Skill.query.all())
+        ), key=lambda x: x['prio']),
         'page': 'index',
         'aboutme': myinfo['aboutme']
     }
@@ -185,6 +186,12 @@ def static_image(image):
 def change_description():
     cleanedDesc = re.sub(pattern=r'(\\n|\\r|\')', repl='', string=str(flask.request.get_data())[14:-5])
     myinfo['aboutme'] = cleanedDesc
+    return flask.redirect('/admin')
+
+@application.route("/updatecommits", methods=["GET"])
+@login_required
+def update_commits():
+    subprocess.call("../githubapi.sh", shell=True)
     return flask.redirect('/admin')
 
 if __name__ == '__main__':

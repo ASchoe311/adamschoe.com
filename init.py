@@ -94,9 +94,10 @@ class Skill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     print_name = db.Column(db.String(16), nullable=False)
     icon_name = db.Column(db.String(32), nullable=False)
+    prio = db.Column(db.Integer, nullable=False, default=100)
 
     def __repr__(self):
-        return "{" + f"\"name\": \"{self.print_name}\", \"icon\": \"{self.icon_name}\"" + "}"
+        return "{" + f"\"name\": \"{self.print_name}\", \"icon\": \"{self.icon_name}\", \"prio\": {self.prio}" + "}"
 
 class BlockedDomain(db.Model):
     id = db.Column(db.Integer, primary_key=True)
