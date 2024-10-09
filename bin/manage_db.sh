@@ -14,12 +14,12 @@ fi
 # Parse argument.  $1 is the first argument
 case $1 in
   "create")
-	  FILE=sql/db.sqlite
+	  FILE=./sql/db2.sqlite
 	  if test -f "$FILE"; then
 	  	echo "Error: database already exists"
 	  else
-	  	sqlite3 sql/db.sqlite < sql/schema.sql
-	  	sqlite3 sql/db.sqlite < sql/data.sql
+	  	sqlite3 ./sql/db2.sqlite < sql/schema.sql
+	  	# sqlite3 sql/db2.sqlite < sql/data.sql
     fi
 	;;
   "destroy")

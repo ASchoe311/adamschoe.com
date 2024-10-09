@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 from flask_mail import Message
 from flask_admin import helpers
 import json
-from init import application, Project, mail, User, LoginForm, EmailForm, Skill, BlockedDomain
+from init import application, Project, mail, User, LoginForm, EmailForm, Skill, BlockedDomain, myinfo
 # from flask_migrate import Migrate
 from flask_login import (
     login_user,
@@ -18,6 +18,9 @@ from flask_login import (
 from PIL import Image
 import requests
 from werkzeug.middleware.proxy_fix import ProxyFix
+import re
+import datetime
+
 application.wsgi_app = ProxyFix(application.wsgi_app, x_for=1, x_host=1)
 
 # @application.before_request
@@ -40,13 +43,6 @@ def load_user(user_id):
 num_projects = 0
 
 
-myinfo = {
-    'resume_file': 'Resume.pdf',
-    'phone_num': '914-539-5828',
-    'emails': ['aschoe@umich.edu', 'adamrschoenfeld311@gmail.com']
-}
-
-
 def allowed_img_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ['png', 'jpg', 'jpeg', 'gif', 'webp']
 
@@ -55,15 +51,16 @@ def allowed_res_file(filename):
 
 @application.route('/')
 def show_index():
-    # print(str(Project.query.all()))
+    print(str(Project.query.all()))
     context = {
         'projects': sorted(
             json.loads(str(Project.query.all())
-        ), key=lambda x: x['id'], reverse=True),
+        ), key=lambda x: datetime.datetime.strptime(x['lastupdate'][1:-1], '%Y-%m-%dT%H:%M:%SZ'), reverse=True),
         'skills': json.loads(
             str(Skill.query.all())
         ),
-        'page': 'index'
+        'page': 'index',
+        'aboutme': myinfo['aboutme']
     }
     # print(context)
     return flask.render_template('index.html', **context)
@@ -147,7 +144,7 @@ def upload_img():
 @application.route("/uploadprojectimg", methods=["POST"])
 @login_required
 def upload_project_img():
-    imgFile = flask.request.files['image']
+    imgFile = flask.request.files['projectimage']
     filename = secure_filename(imgFile.filename)
     if allowed_img_file(filename):
         savePath = os.path.join(application.config['IMG_UPLOAD_FOLDER'], filename)
@@ -183,7 +180,13 @@ def give_sitemap():
 def static_image(image):
     return flask.send_from_directory(application.static_folder, "images/" + image)
 
+@application.route("/changedescription", methods=["POST"])
+@login_required
+def change_description():
+    cleanedDesc = re.sub(pattern=r'(\\n|\\r|\')', repl='', string=str(flask.request.get_data())[14:-5])
+    myinfo['aboutme'] = cleanedDesc
+    return flask.redirect('/admin')
 
 if __name__ == '__main__':
     # init_db()
-    application.run(debug=True)
+    application.run(debug=False)

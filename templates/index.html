@@ -42,7 +42,7 @@
             <h6>Hi, my name is</h6>
             <h1 itemprop="name" class="display-4 fw-bold lh-1 mb-3 mx-sm-2">Adam Schoenfeld</h1>
             <p itemprop="description" class="lead">
-                I am a dedicated and ambitious software engineer with <strong style="color: #000; font-weight: bold;">full-stack development talents</strong>. I am highly experienced with Python, C++, and JavaScript, and have developed a unique and varied portfolio of applications. I am currently open to job offers for any software engineering positions, and look forward to hearing from you soon!
+                {{ aboutme|safe }}
             </p>
             <div class="d-grid gap-4 d-md-flex justify-content-md-start">
               <a itemprop="sameAs" href="https://github.com/ASchoe311" target="_blank" class="btn btn-outline-primary btn-lg px-4 me-md-2 me-1">My GitHub</a>
@@ -118,20 +118,25 @@
                         <img src="{{url_for('show_image', image=project.image)}}" itemprop="thumbnailUrl" class="img-fluid" alt="Thumbnail for {{ project.title }}" loading="lazy">
                     </div>
                     <div class="card-body">
-                        {% if project.is_wip %}
-                        <span itemprop="creativeWorkStatus" class="badge rounded-pill bg-warning font-weight-bold text-white float-end mt-1" data-mdb-toggle="tooltip" title="Development is ongoing">WIP</span>
-                        {% else %}
-                        <span itemprop="creativeWorkStatus" class="badge rounded-pill bg-success font-weight-bold text-white float-end mt-1" data-mdb-toggle="tooltip" title="Development is completed">Completed</span>
+                        <div>
+                            {% for lang in project.languages %}
+                            <span class="badge rounded-pill bg-info font-weight-bold text-white" data-mdb-toggle="tooltip" title="Written using {{ lang }}">{{ lang }}</span>
+                            <!-- <span class="badge rounded-pill bg-info">
+                                <i class="fab fa-{{ lang }} fa-lg text-capitalize" data-mdb-toggle="tooltip" title="Written using {{ lang }}"></i>
+                            </span> -->
+                            {% endfor %}
+                            {% if project.is_wip %}
+                            <span itemprop="creativeWorkStatus" class="badge rounded-pill bg-warning font-weight-bold text-white float-end mt-1" data-mdb-toggle="tooltip" title="Development is ongoing">WIP</span>
+                            {% else %}
+                            <span itemprop="creativeWorkStatus" class="badge rounded-pill bg-success font-weight-bold text-white float-end mt-1" data-mdb-toggle="tooltip" title="Development is completed">Completed</span>
+                            {% endif %}
+                        </div>
+                        <h3 itemprop="name" class="text-center my-3"><a href="{{ project.github_url }}" class="ProjectLink card-title mx-2 text-decoration-none text-body" target="_blank">
+                            {{ project.title }}
+                        </a></h3>
+                        {% if project.shield|string() != "NULL" %}
+                        <img class="position-relative start-50 top-0 translate-middle mt-2" alt="Downloads count" src="{{ project.shield }}">
                         {% endif %}
-                        {% for lang in project.languages %}
-                        <span class="badge rounded-pill bg-info font-weight-bold text-white" data-mdb-toggle="tooltip" title="Written using {{ lang }}">{{ lang }}</span>
-                        <!-- <span class="badge rounded-pill bg-info">
-                            <i class="fab fa-{{ lang }} fa-lg text-capitalize" data-mdb-toggle="tooltip" title="Written using {{ lang }}"></i>
-                        </span> -->
-                        {% endfor %}
-                        <a href="{{ project.github_url }}" class="ProjectLink card-title mx-2 text-decoration-none text-body" target="_blank">
-                            <h3 itemprop="name" class="text-center mt-3">{{ project.title }}</h3>
-                        </a>
                         <p itemprop="description" class="ProjectDescription card-text">{{ project.description }}</p>
                         {% if project.extras %}
                         {% for ext in project.extras %}

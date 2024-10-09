@@ -15,17 +15,24 @@
     </form>
     <form action="{{ url_for('upload_project_img') }}" method="POST" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="InputImg">Image</label>
-            <input type="file" class="form-control" id="InputImg" name="image" required>
+            <label for="InputProjectImg">Project Image</label>
+            <input type="file" class="form-control" id="InputProjectImg" name="projectimage" required>
         </div>
         <button type="submit">Upload Project Image</button>
     </form>
     <form action="{{ url_for('upload_resume') }}" method="POST" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="InputImg">Resume PDF</label>
+            <label for="InputPdf">Resume PDF</label>
             <input type="file" class="form-control" id="InputPdf" name="pdf" required>
         </div>
         <button type="submit">Upload Resume</button>
+    </form>
+    <form action="{{ url_for('change_description') }}" method="POST" enctype="text/plain">
+        <div class="form-group">
+            <label for="MyDescription">Personal Description</label>
+            <textarea class="form-control" id="MyDescription" name="description" rows="10" cols="100" required>{{ desc }}</textarea>
+        </div>
+        <button type="submit">Change Personal Description</button>
     </form>
     {% else %}
     <form action="{{ url_for('login') }}" method="POST" enctype="multipart/form-data" id="loginform">

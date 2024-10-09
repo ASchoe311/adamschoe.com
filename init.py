@@ -10,18 +10,30 @@ from flask_wtf import Form
 from wtforms import StringField, EmailField, TextAreaField, PasswordField, HiddenField
 from wtforms.validators import Length, Email, InputRequired, Optional, ValidationError
 import hashlib
+import datetime
 
 application = flask.Flask(__name__)
 
 SITE_ROOT = pathlib.Path(__file__).resolve().parent
+
+myinfo = {
+    'resume_file': 'Resume.pdf',
+    'phone_num': '914-539-5828',
+    'emails': ['aschoe@umich.edu', 'adamrschoenfeld311@gmail.com'],
+    'aboutme': '''I am a dedicated and ambitious software engineer with 
+<strong style="color: #000; font-weight: bold;">full-stack development talents</strong>. 
+I am highly experienced with Python, C++, and JavaScript, and have developed a unique 
+and varied portfolio of applications. I am currently open to job offers for any software 
+engineering positions, and look forward to hearing from you soon!'''
+}
 
 application.config.update(
     APPLICATION_ROOT='/',
     SECRET_KEY=bytes(dotenv_values('.env')['FLASK_SECRET_KEY'], 'utf-8'),
     SITE_ROOT=SITE_ROOT,
     MAX_CONTENT_LENGTH=16 * 1024 * 1024,
-    IMG_UPLOAD_FOLDER=SITE_ROOT/'static'/'images',
-    PDF_UPLOAD_FOLDER=SITE_ROOT/'static'/'pdfs',
+    IMG_UPLOAD_FOLDER=SITE_ROOT/'..'/'images',
+    PDF_UPLOAD_FOLDER=SITE_ROOT/'..'/'pdfs',
     DATABASE_FILENAME=SITE_ROOT/'sql'/'db.sqlite3',
     MAIL_SERVER='email-smtp.us-east-2.amazonaws.com',
     MAIL_PORT=587,
@@ -29,7 +41,7 @@ application.config.update(
     MAIL_USERNAME=dotenv_values('.env')['SES_USERNAME'],
     MAIL_PASSWORD=dotenv_values('.env')['SES_PASSWORD'],
     MAIL_DEBUG=False,
-    SQLALCHEMY_DATABASE_URI='sqlite:///./sql/db.sqlite',
+    SQLALCHEMY_DATABASE_URI='sqlite:///../sql/db.sqlite',
     SQLALCHEMY_TRACK_MODIFICATIONS=False
 )
 
@@ -48,7 +60,7 @@ class User(db.Model, UserMixin):
 class Extra(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(64), nullable=False)
-    url = db.Column(db.String(128), nullable=False, unique=True)
+    url = db.Column(db.String(128), nullable=False)
     proj_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
 
     def __repr__(self):
@@ -69,11 +81,13 @@ class Project(db.Model):
     github_url = db.Column(db.String(128), nullable=False)
     image = db.Column(db.String(64), nullable=False)
     is_wip = db.Column(db.Boolean, nullable=False)
+    shield = db.Column(db.String(128))
+    lastupdate = db.Column(db.Text, default=('\'' + datetime.datetime.now().isoformat(sep='T', timespec='seconds')+"Z\'"))
     extras = db.relationship('Extra', backref='project', cascade="all, delete-orphan", lazy=True)
     languages = db.relationship('Language', backref='project', cascade="all, delete-orphan", lazy=True)
 
     def __repr__(self):
-        return '{' + f"\"id\": {self.id}, \"title\": \"{self.title}\", \"description\": \"{self.description}\", \"github_url\": \"{self.github_url}\", \"image\": \"{self.image}\", \"languages\": {Language.query.filter_by(proj_id=self.id).all()}, \"is_wip\": {'true' if self.is_wip else 'false'}, \"extras\": {Extra.query.filter_by(proj_id=self.id).all()}" + '}'
+        return '{' + f"\"id\": {self.id}, \"title\": \"{self.title}\", \"description\": \"{self.description}\", \"github_url\": \"{self.github_url}\", \"image\": \"{self.image}\", \"languages\": {Language.query.filter_by(proj_id=self.id).all()}, \"is_wip\": {'true' if self.is_wip else 'false'}, \"extras\": {Extra.query.filter_by(proj_id=self.id).all()}, \"shield\": \"{self.shield if self.shield else 'NULL'}\", \"lastupdate\": \"{self.lastupdate}\"" + '}'
         # return '<Post %r>' % self.title
 
 class Skill(db.Model):
@@ -200,6 +214,7 @@ class MyAdminIndexView(AdminIndexView):
             self._template_args['status'] = 1
         form = LoginForm(flask.request.form)
         self._template_args['form'] = form
+        self._template_args['desc'] = myinfo['aboutme']
         return super(MyAdminIndexView, self).index()
 
 admin = Admin(application, index_view=MyAdminIndexView())
