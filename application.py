@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 from flask_mail import Message
 from flask_admin import helpers
 import json
-from init import application, Project, mail, User, LoginForm, EmailForm, Skill, BlockedDomain, myinfo
+from init import application, Project, mail, User, LoginForm, EmailForm, Skill, BlockedDomain, myinfo, db
 # from flask_migrate import Migrate
 from flask_login import (
     login_user,
@@ -16,11 +16,12 @@ from flask_login import (
     login_required,
     logout_user
 )
-from PIL import Image
+from PIL import Image, ImageOps
 import requests
 from werkzeug.middleware.proxy_fix import ProxyFix
 import re
 import datetime
+from math import floor
 
 application.wsgi_app = ProxyFix(application.wsgi_app, x_for=1, x_host=1)
 
@@ -52,7 +53,6 @@ def allowed_res_file(filename):
 
 @application.route('/')
 def show_index():
-    # print(str(Project.query.all()))
     context = {
         'projects': sorted(
             json.loads(str(Project.query.all())
@@ -60,8 +60,8 @@ def show_index():
         'skills': sorted(
             json.loads(str(Skill.query.all())
         ), key=lambda x: x['prio']),
+        'bio': db.session.execute(db.select(User.bio).where(User.username == "adamschoe")).all()[0].bio,
         'page': 'index',
-        'aboutme': myinfo['aboutme']
     }
     # print(context)
     return flask.render_template('index.html', **context)
@@ -141,6 +141,31 @@ def upload_img():
         img.save(newPath, format='webp')
     return flask.redirect('/admin')
 
+def get_size(image):
+    maxHeight = 394
+    ratio = maxHeight/image.height
+    return (floor(image.width * ratio), 394)
+
+def padding(img, expected_size):
+    desired_size = expected_size
+    delta_width = desired_size[0] - img.size[0]
+    delta_height = desired_size[1] - img.size[1]
+    pad_width = delta_width // 2
+    pad_height = delta_height // 2
+    padding = (pad_width, pad_height, delta_width - pad_width, delta_height - pad_height)
+    return ImageOps.expand(img, padding)
+
+
+def resize_with_padding(img, expected_size):
+    img.thumbnail((expected_size[0], expected_size[1]))
+    # print(img.size)
+    delta_width = expected_size[0] - img.size[0]
+    delta_height = expected_size[1] - img.size[1]
+    pad_width = delta_width // 2
+    pad_height = delta_height // 2
+    padding = (pad_width, pad_height, delta_width - pad_width, delta_height - pad_height)
+    return ImageOps.expand(img, padding)
+
 # TODO: Fix this
 @application.route("/uploadprojectimg", methods=["POST"])
 @login_required
@@ -151,7 +176,7 @@ def upload_project_img():
         savePath = os.path.join(application.config['IMG_UPLOAD_FOLDER'], filename)
         imgFile.save(savePath)
         im = Image.open(savePath)
-        resized_im = im.resize((700, 394))
+        resized_im = resize_with_padding(im, (700, 394))
         newPath = os.path.join(application.config['IMG_UPLOAD_FOLDER'], filename.split('.')[0] + '.webp')
         resized_im.save(newPath, format='webp')
     return flask.redirect('/admin')
@@ -164,9 +189,9 @@ def upload_resume():
     filename = secure_filename(resFile.filename)
     # print(filename)
     if allowed_res_file(filename):
-        savePath = os.path.join(application.config['PDF_UPLOAD_FOLDER'], filename)
+        savePath = os.path.join(application.config['PDF_UPLOAD_FOLDER'], "Adam Schoenfeld - aschoe@umich.edu.pdf")
         resFile.save(savePath)
-        myinfo['resume_file'] = filename
+        myinfo['resume_file'] = "Adam Schoenfeld - aschoe@umich.edu.pdf"
     return flask.redirect('/admin')
 
 @application.route("/robots.txt", methods=["GET"])
@@ -180,13 +205,6 @@ def give_sitemap():
 @application.route("/staticimage/<image>", methods=["GET"])
 def static_image(image):
     return flask.send_from_directory(application.static_folder, "images/" + image)
-
-@application.route("/changedescription", methods=["POST"])
-@login_required
-def change_description():
-    cleanedDesc = re.sub(pattern=r'(\\n|\\r|\')', repl='', string=str(flask.request.get_data())[14:-5])
-    myinfo['aboutme'] = cleanedDesc
-    return flask.redirect('/admin')
 
 @application.route("/updatecommits", methods=["GET"])
 @login_required

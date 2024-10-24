@@ -22,8 +22,8 @@ myinfo = {
     'emails': ['aschoe@umich.edu', 'adamrschoenfeld311@gmail.com'],
     'aboutme': '''I am a dedicated and ambitious software engineer with 
 <strong style="color: #000; font-weight: bold;">full-stack development talents</strong>. 
-I am highly experienced with Python, C++, and JavaScript, and have developed a unique 
-and varied portfolio of applications. I am currently open to job offers for any software 
+I am highly experienced with Python, C++, and JavaScript, and have developed a <a href="#ProjectCards">unique 
+and varied portfolio of applications&nbsp;<i class="fas fa-angles-down"></i></a>. I am currently open to job offers for any software 
 engineering positions, and look forward to hearing from you soon!'''
 }
 
@@ -51,7 +51,8 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32), unique=True, nullable=False)
     email = db.Column(db.String(32), unique=True, nullable=False)
-    password = db.Column(db.String(32), nullable=False, unique=True)
+    password = db.Column(db.String(64), nullable=False)
+    bio = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -215,7 +216,6 @@ class MyAdminIndexView(AdminIndexView):
             self._template_args['status'] = 1
         form = LoginForm(flask.request.form)
         self._template_args['form'] = form
-        self._template_args['desc'] = myinfo['aboutme']
         return super(MyAdminIndexView, self).index()
 
 admin = Admin(application, index_view=MyAdminIndexView())

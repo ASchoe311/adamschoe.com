@@ -40,12 +40,12 @@
           </div>
           <div class="col-lg-6 mt-3 mt-md-5">
             <h6>Hi, my name is</h6>
-            <h1 itemprop="name" class="display-4 fw-bold lh-1 mb-3 mx-sm-2">Adam Schoenfeld</h1>
+            <h1 itemprop="name" class="display-4 fw-bold lh-1 mb-3">Adam Schoenfeld</h1>
             <p itemprop="description" class="lead">
-                {{ aboutme|safe }}
+                {{ bio|safe }}
             </p>
-            <div class="d-grid gap-4 d-md-flex justify-content-md-start">
-              <a itemprop="sameAs" href="https://github.com/ASchoe311" target="_blank" class="btn btn-outline-primary btn-lg px-4 me-md-2 me-1">My GitHub</a>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              <a itemprop="sameAs" href="https://github.com/ASchoe311" target="_blank" class="btn btn-outline-primary btn-lg px-4 me-md-1">My GitHub</a>
               <a itemprop="sameAs" href="https://www.linkedin.com/in/adam-schoenfeld-020133187/" target="_blank" class="btn btn-outline-primary btn-lg px-4">My LinkedIn</a>
             </div>
           </div>
@@ -114,7 +114,7 @@
                         <meta itemprop="ratingValue" content="5.0">
                         <meta itemprop="ratingCount" content="1">
                     </div>
-                    <div class="bg-image shadow-4-strong rounded mx-auto">
+                    <div class="bg-image rounded mx-auto">
                         <img src="{{url_for('show_image', image=project.image)}}" itemprop="thumbnailUrl" class="img-fluid" alt="Thumbnail for {{ project.title }}" loading="lazy">
                     </div>
                     <div class="card-body">
@@ -137,7 +137,7 @@
                         {% if project.shield|string() != "NULL" %}
                         <img class="position-relative start-50 top-0 translate-middle mt-2" alt="Downloads count" src="{{ project.shield }}">
                         {% endif %}
-                        <p itemprop="description" class="ProjectDescription card-text">{{ project.description }}</p>
+                        <p itemprop="description" class="ProjectDescription card-text">{{ project.description|safe }}</p>
                         {% if project.extras %}
                         {% for ext in project.extras %}
                         <a href="{{ ext.url }}" target="_blank"class="card-link">{{ ext.text }}</a>
@@ -160,7 +160,9 @@
 {{ super() }}
 {% endblock %}
 {% block footer %}
-{{ super() }}
+<footer class="bg-light text-center text-lg-start pt-3">
+    {{ super() }}
+</footer>
 {% endblock %}
 {% block JS %}
 {{ super() }}

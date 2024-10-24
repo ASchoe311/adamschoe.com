@@ -69,14 +69,14 @@
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item">
                         {% if page == 'index' %}
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('show_index') }}">| Home |</a>
+                        <u><a class="nav-link active" aria-current="page" href="{{ url_for('show_index') }}">Home</a></u>
                         {% else %}
                         <a class="nav-link" href="{{ url_for('show_index') }}">Home</a>
                         {% endif %}
                     </li>
                     <li class="nav-item">
                         {% if page == 'contact' %}
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('show_contact_info') }}">| Contact |</a>
+                        <u><a class="nav-link active" aria-current="page" href="{{ url_for('show_contact_info') }}">Contact</a></u>
                         {% else %}
                         <a class="nav-link" href="{{ url_for('show_contact_info') }}">Contact</a>
                         {% endif %}
@@ -137,19 +137,17 @@
     </div>
     {% endblock %}
     {% block footer %}
-    <footer class="bg-light text-center text-lg-start pt-3">
         <!-- Copyright -->
         <div class="text-center p-3 lh-base" style="background-color: rgba(0, 0, 0, 0.2);">
-            © 2022 Copyright:
-            <a class="text-dark" href="http://adamschoe.com/">AdamSchoe.com</a><br>
-            Site created using Flask with Jinja2 templates and hosted on AWS Elastic Beanstalk<br>
+            <p class="my-2">© 2022 Copyright:
+            <a class="text-dark" href="http://adamschoe.com/">AdamSchoe.com</a></p>
+            <p class="my-2">Site created using Flask with Jinja2 templates and hosted on AWS Elastic Beanstalk</p>
             <a class="btn btn-dark btn-lg  hover-overlay ripple ripple-surface-light mt-1" href="https://github.com/ASchoe311/adamschoe.com" target="_blank">
                 <i class="fa-brands fa-github me-1" style="position: relative; top: 1px; font-size: 16px;"></i>
                 Source Code
             </a>
         </div>
         <!-- Copyright -->
-    </footer>
     {% endblock %}
     {% block JS %}
     <!-- Global site tag (gtag.js) - Google Analytics -->

@@ -27,13 +27,6 @@
         </div>
         <button type="submit">Upload Resume</button>
     </form>
-    <form action="{{ url_for('change_description') }}" method="POST" enctype="text/plain">
-        <div class="form-group">
-            <label for="MyDescription">Personal Description</label>
-            <textarea class="form-control" id="MyDescription" name="description" rows="10" cols="100" required>{{ desc }}</textarea>
-        </div>
-        <button type="submit">Change Personal Description</button>
-    </form>
     <form action="{{ url_for('update_commits') }}" method="GET">
         <button type="submit">Manually Update Commit Times</button>
     </form>
