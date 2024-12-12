@@ -114,7 +114,8 @@ def show_resume():
     # iFrameUrl = f"https://docs.google.com/viewer?url=your_url_to_pdf&embedded=true"
     # return flask.render_template('resume.html', resFile=myinfo['resume_file'], page='resume')
     # return flask.redirect(flask.url_for('show_pdf', pdf=myinfo['resume_file']))
-    return flask.send_from_directory(application.config["PDF_UPLOAD_FOLDER"], myinfo['resume_file'])
+    # return flask.send_from_directory(application.config["PDF_UPLOAD_FOLDER"], myinfo['resume_file'])
+    return show_pdf(myinfo['resume_file'])
 
 @application.route("/images/<image>", methods=["GET"])
 def show_image(image):

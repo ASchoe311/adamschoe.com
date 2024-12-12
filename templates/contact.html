@@ -159,13 +159,13 @@
     </div>
 </div>
 {% endblock %}
-{% block FabMenu %}
-{{ super() }}
-{% endblock %}
 {% block footer %}
-<footer class="bg-light text-center text-lg-start pt-3 fixed-bottom">
+<footer class="bg-light text-center text-lg-start pt-3">
     {{ super() }}
 </footer>
+{% endblock %}
+{% block FabMenu %}
+{{ super() }}
 {% endblock %}
 {% block JS %}
 {{ super() }}
